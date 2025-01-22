@@ -21,7 +21,8 @@ interface FormInput {
     console.log("Hitting API")
 
     fetch("https://webhook.site/9717a3d2-270d-4c87-a6c3-7d0b3b81702e", {
-      method:"POST",
+      method: "POST",
+      mode:"no-cors",
       headers: {
         'Content-Type':"application/json"
       },
