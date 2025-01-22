@@ -9,6 +9,7 @@ export function showPopup(): void {
   const popup = document.createElement("div");
   popup.id = "custom-popup";
   popup.style.position = "fixed";
+  popup.style.zIndex = "9999999"
   popup.style.top = "50%";
   popup.style.left = "50%";
   popup.style.transform = "translate(-50%, -50%)";
