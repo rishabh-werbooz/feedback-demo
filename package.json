@@ -1,6 +1,6 @@
 {
     "name": "@crazy-web/feedback",
-    "version": "1.0.42",
+    "version": "1.0.43",
     "description": "A feedback form handler package that shows a popup based on allowed URLs.",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
