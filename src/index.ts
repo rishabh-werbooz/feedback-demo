@@ -38,18 +38,19 @@ export async function init({ organizationId,properties }: { organizationId: stri
     return;
   }
 
-  // Find the organization data based on the provided ID
-  const orgData = await fetchOrganizationData({organizationId})
+  const existingData = getFromSessionStorage(SessionStorageName);
 
-  if (!orgData.length) {
-    console.error("Error: Organization not found for ID", organizationId);
-    return;
+
+  if (existingData?.userData?.id !== properties.id) {
+    // Find the organization data based on the provided ID
+    const orgData = await fetchOrganizationData({organizationId})
+    if(!orgData.length) {
+      console.error("Error: Organization not found for ID", organizationId);
+      return;
+    }
+    // Save data in sessionStorage
+    saveToSessionStorage(SessionStorageName,{userData:properties,orgData});
   }
-
-  // Save data in sessionStorage
-  saveToSessionStorage(SessionStorageName,{userData:properties,orgData});
-  console.log("Organization data saved in sessionStorage.");
-
   // Check if the current URL matches allowed URLs
   checkAndShowPopup();
 }
