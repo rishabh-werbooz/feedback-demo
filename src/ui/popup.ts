@@ -133,20 +133,6 @@ export function showPopup(matchedOrg: any): void {
   const borderColor = isDarkMode ? "#6a676778" : "#868484";
   const labelColor = isDarkMode ? "#bbb" : "#000";
 
-  const prodioFeedbackStyle = `
-  <style>
-    .prodio-feedback-form-heading{
-    font-size: 27px;
-    margin: 0;
-  }
-
-  @media screen and(max-width:700px) {
-    .prodio-feedback-form-heading{
-        font-size: 20px;
-    }
-  }
-  </style>
-  `
 
   // Create the overlay
   const overlay = document.createElement("div");
@@ -201,6 +187,16 @@ const addStyles = () => {
         font-size: 20px;
       }
     }
+
+    .prodio-feedback-form-description {
+      font-size: 14px;
+    }
+
+    @media screen and (max-width: 700px) {
+      .prodio-feedback-form-description {
+        font-size: 12px;
+      }
+    }
   `;
   document.head.appendChild(styleElement);
   };
@@ -210,7 +206,7 @@ const addStyles = () => {
 const removeStyles = () => {
   const styles = document.head.getElementsByTagName("style");
   for (let i = 0; i < styles.length; i++) {
-    if (styles[i].innerHTML.includes(".prodio-feedback-form-heading")) {
+    if (styles[i].innerHTML.includes(".prodio-feedback")) {
       styles[i].remove();
       break;
     }
@@ -220,7 +216,7 @@ const removeStyles = () => {
 
   popup.innerHTML = `
     <h2 class="prodio-feedback-form-heading">Submit Your Feedback</h2>
-    <span style="font-size:14px;">Fill out the form below to submit your feedback</span>
+    <span class="prodio-feedback-form-description">Fill out the form below to submit your feedback</span>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
       <label for="popup-type" style="display: block; text-align: left; color: ${labelColor};font-size:12px;">Type</label>
