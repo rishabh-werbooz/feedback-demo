@@ -9,7 +9,7 @@ interface FormInput {
    * @param input FormInput
    */
   export const handleSubmit = (data: FormInput): void => {
-    if (!data.type || !data.title || data.description) {
+    if (!data.type || !data.title || !data.description) {
       alert("Please fill out all fields.");
       return;
     }

@@ -1,24 +1,11 @@
 import { Organization } from "./core/entities/Organization";
 import { saveToSessionStorage, getFromSessionStorage } from "./core/repositories/Storage";
+import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { showPopup } from "./ui/popup";
 
-// Dummy organization data
-const dummyData: Organization[] = [
-  {
-    id: "1",
-    name: "Organization One",
-    description: "Sample organization",
-    metadata: { openAfter:5 },
-    allowed_urls: ["/about", "/"],
-  },
-  {
-    id: "2",
-    name: "Organization Two",
-    description: "Another organization",
-    metadata: { openAfter:10 },
-    allowed_urls: ["/services"],
-  },
-];
+
+const orgDataStorageName = "orgData"
+
 
 /**
  * Initializes the popup handler by saving dummy organization data in sessionStorage.
@@ -32,7 +19,7 @@ export async function init({ organizationId }: { organizationId: string }): Prom
   }
 
   // Find the organization data based on the provided ID
-  const orgData = dummyData.filter(org => org.id === organizationId);
+  const orgData = await fetchOrganizationData({organizationId})
 
   if (!orgData.length) {
     console.error("Error: Organization not found for ID", organizationId);
@@ -40,7 +27,7 @@ export async function init({ organizationId }: { organizationId: string }): Prom
   }
 
   // Save data in sessionStorage
-  saveToSessionStorage(orgData);
+  saveToSessionStorage(orgDataStorageName,orgData);
   console.log("Organization data saved in sessionStorage.");
 
   // Check if the current URL matches allowed URLs
@@ -52,7 +39,7 @@ export async function init({ organizationId }: { organizationId: string }): Prom
  */
 function checkAndShowPopup(): void {
   const currentPath = window.location.pathname; // Get current path like "/login", "/", "/about"
-  const orgData = getFromSessionStorage();
+  const orgData = getFromSessionStorage(orgDataStorageName);
 
   if (!orgData) return;
 

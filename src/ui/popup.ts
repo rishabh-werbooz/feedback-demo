@@ -1,7 +1,7 @@
 import { handleSubmit } from "../core/usecases/handleSubmit";
 
 /**
- * Displays a dark-themed popup with form fields for user feedback.
+ * Displays a feedback popup with form fields.
  */
 export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
@@ -23,55 +23,67 @@ export function showPopup(matchedOrg: any): void {
   // Create the popup container
   const popup = document.createElement("div");
   popup.id = "custom-popup";
+  popup.style.display = "flex";
+  popup.style.flexDirection = "column";
+  popup.style.gap = "20px";
   popup.style.position = "fixed";
   popup.style.zIndex = "9999999";
   popup.style.top = "50%";
   popup.style.left = "50%";
   popup.style.transform = "translate(-50%, -50%)";
-  popup.style.backgroundColor = "#1e1e1e";
+  popup.style.backgroundColor = "#000";
   popup.style.color = "#ffffff";
-  popup.style.padding = "30px";
+  popup.style.padding = "20px";
   popup.style.borderRadius = "10px";
-  popup.style.width = "400px";
-  popup.style.boxShadow = "0 0 15px rgba(255,255,255,0.2)";
-  popup.style.textAlign = "center";
-  popup.innerHTML = `
-      <h2 style="margin-bottom: 20px; color: #fff;">Submit Feedback</h2>
+  popup.style.width = "500px";
+  popup.style.border = "1px solid white";
 
+  popup.innerHTML = `
+    <h2 style="margin:0px;font-size: 35px;">Submit Your Feedback</h2>
+    <span>Fill out the form below to submit your feedback</span>
+
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
       <label for="popup-type" style="display: block; text-align: left; color: #bbb;">Type</label>
-      <select id="popup-type" style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: none; background: #333; color: #fff;">
+      <select id="popup-type" style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff;">
         <option value="feature">Feature</option>
         <option value="bug">Bug</option>
         <option value="improvement">Improvement</option>
         <option value="task">Task</option>
         <option value="question">Question</option>
       </select>
+    </div>
 
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
       <label for="popup-title" style="display: block; text-align: left; color: #bbb;">Title</label>
       <input 
         type="text" 
         id="popup-title" 
         placeholder="Enter title" 
-        style="width: 100%; padding: 10px; margin-bottom: 15px; border-radius: 5px; border: none; background: #333; color: #fff;"
+        style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff;"
       />
+    </div>
 
+    <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
       <label for="popup-description" style="display: block; text-align: left; color: #bbb;">Description</label>
       <textarea 
         id="popup-description" 
         placeholder="Enter description" 
-        style="width: 100%; height: 100px; padding: 10px; margin-bottom: 20px; border-radius: 5px; border: none; background: #333; color: #fff; resize: none;"
+        rows="5"
+        style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff; resize: none;"
       ></textarea>
+    </div>
 
-      <button id="popup-submit" style="width: 100%; padding: 12px; background-color: #ff5722; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+    <div style="display: flex;justify-content: end;gap: 16px;">
+      <button id="popup-close" style="padding: 12px 24px; background-color: #000; border: 1px solid white; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+        Cancel
+      </button>
+      <button id="popup-submit" style="padding: 12px 24px; background-color: #39C3EF; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
         Submit
       </button>
-      <br/><br/>
-      <button id="popup-close" style="width: 100%; padding: 12px; background-color: #444; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
-        Close
-      </button>
+    </div>
   `;
 
-  // Delay popup display according to `openAfter` property
+  // Show popup after delay
   setTimeout(() => {
     document.body.appendChild(overlay);
     document.body.appendChild(popup);
@@ -82,10 +94,7 @@ export function showPopup(matchedOrg: any): void {
       const title = (document.getElementById("popup-title") as HTMLInputElement).value;
       const description = (document.getElementById("popup-description") as HTMLTextAreaElement).value;
 
-
-      const dataToSend = { type, title, description }
-
-      handleSubmit(dataToSend);
+      handleSubmit({ type, title, description });
       overlay.remove();
       popup.remove();
     });
