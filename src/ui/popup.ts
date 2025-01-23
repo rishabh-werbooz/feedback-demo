@@ -133,6 +133,7 @@ const removeStyles = () => {
       ></textarea>
     </div>
 
+    <span id="popup-error" style="color: red; display: none;">All fields are required</span>
     <div style="display: flex;justify-content: end;gap: 12px;">
       <button id="popup-close" style="padding: 5px 20px; background-color: ${backgroundColor}; border: 1px solid ${textColor}; border-radius: 5px; color: ${textColor}; font-size: 14px; cursor: pointer;">
         Cancel
@@ -158,23 +159,57 @@ const removeStyles = () => {
       const title = (document.getElementById("popup-title") as HTMLInputElement).value;
       const description = (document.getElementById("popup-description") as HTMLTextAreaElement).value;
 
-      if (!type || !title || !description) {
-        // show red error and fill the field red
+      const errorSpan = document.getElementById("popup-error") as HTMLSpanElement;
+
+
+      const inputs = [
+        document.getElementById("popup-type") as HTMLSelectElement,
+        document.getElementById("popup-title") as HTMLInputElement,
+        document.getElementById("popup-description") as HTMLTextAreaElement
+      ];
+
+      let hasError = false;
+      inputs.forEach(input => {
+        if (!input.value.trim()) {
+          input.style.border = "1px solid red";
+          hasError = true;
+        }
+      });
+
+      if (hasError) {
+        errorSpan.style.display = "block";
+        return;
       }
+
+
+
+      // if (!type || !title || !description) {
+      //   errorSpan.style.display = "block";
+      //   return
+      //   // show red error and fill the field red
+      // }
   
 
       handleSubmit({ type, title, description }).then((res:any) => {
         if (res.error) {
           // sho red error
+          errorSpan.textContent = res.error;
+          errorSpan.style.display = "block";
         } else {
           popup.innerHTML = `
             <h2 class="prodio-feedback-form-heading" style="text-align:center;">Form Submitted Successfully</h2>
-            <div>
-              <button id="popup-close" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
-                Submit
+            <div style="display:flex;justify-content:center;margin-top:20px;">
+              <button id="done-button" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
+                Done
               </button>
             </div>
           `
+          document.getElementById("done-button")!.addEventListener("click", () => {
+            overlay.remove();
+            popup.remove();
+            document.body.style.overflow = "";
+            removeStyles();
+          });
           // res.message
           // show form submitted successfully popup
         }
