@@ -73,13 +73,12 @@ function checkAndShowPopup(): void {
     const { id, metadata } = matchedOrg
     const { frequency } = metadata
 
-    // 
 
     // const data = getFromLocalStorage(localStorageName)
 
     const forms = orgData?.submittedForms ?? []
-
-    if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
+//  || (forms.includes(id) && frequency === frequencyTypes.everyTime )
+    if(!forms.includes(id)){
       showPopup(matchedOrg);
     }else {
       console.log("Popup already submitted and frequency check not met.");

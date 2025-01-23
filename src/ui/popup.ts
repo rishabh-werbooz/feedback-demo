@@ -1,4 +1,4 @@
-import { localStorageName, SessionStorageName } from "..";
+import { frequencyTypes, localStorageName, SessionStorageName } from "..";
 import { getFromLocalStorage, getFromSessionStorage, saveToLocalStorage, saveToSessionStorage } from "../core/repositories/Storage";
 import { handleSubmit } from "../core/usecases/handleSubmit";
 /**
@@ -8,7 +8,7 @@ export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
 
   const { id, metadata } = matchedOrg;
-  const { title = "Submit your feedback", description ="Fill out the form below to submit you feedback", openAfter = 0, theme = "system", primaryColor = "#39C3EF",whiteLabel=false } = metadata;
+  const { frequency,title = "Submit your feedback", description ="Fill out the form below to submit you feedback", openAfter = 0, theme = "system", primaryColor = "#39C3EF",whiteLabel=false } = metadata;
 
   // Set theme-based styles
   const isDarkMode = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -238,9 +238,11 @@ const removeStyles = () => {
     document.getElementById("popup-close")!.addEventListener("click", () => {
       overlay.remove();
       popup.remove();
-      const submittedForms = orgData?.submittedForms ?? []
-      submittedForms.push(id)
+      if (frequency === frequencyTypes.everySession) {
+        const submittedForms = orgData?.submittedForms ?? []
+        submittedForms.push(id)
         saveToSessionStorage(SessionStorageName,{...orgData,submittedForms});
+      }
       document.body.style.overflow = ""; // Re-enable scrolling
       removeStyles(); // Remove styles after closing popup
     });
