@@ -208,8 +208,8 @@ export function showPopup(matchedOrg: any): void {
       <button id="popup-submit" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
         Submit
       </button>
-      <span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>
     </div>
+    <span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>
   `;
 
   // Show popup after delay

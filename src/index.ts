@@ -4,7 +4,7 @@ import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { showPopup } from "./ui/popup";
 
 
-const orgDataStorageName = "orgData"
+const orgDataStorageName = "prodio-feedback"
 
 
 /**
@@ -12,9 +12,28 @@ const orgDataStorageName = "orgData"
  * @param {Object} options 
  * @param {string} options.organizationId - The ID of the organization.
  */
-export async function init({ organizationId }: { organizationId: string }): Promise<void> {
+
+properties: {
+
+}
+type PropertiesType = {
+  name:string,
+  email:string,
+  id: string,
+  phone_number: string,
+  job_title: string,
+}
+export async function init({ organizationId,properties }: { organizationId: string,properties:PropertiesType }): Promise<void> {
   if (!organizationId) {
     console.error("Error: organizationId is required.");
+    return;
+  }
+
+  const requiredFields: (keyof PropertiesType)[] = ["name", "phone_number", "id", "job_title", "email"];
+  const missingFields = requiredFields.filter(field => !properties[field]);
+  
+  if (missingFields.length > 0) {
+    console.error(`Error: Missing the following fields: [${missingFields.join(", ")}]`);
     return;
   }
 

@@ -12,7 +12,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                 theme: "system",
                 primaryColor:"#39C3EF"
             },
-          allowed_urls: ["/about", "/"],
+          allowed_urls: ["/"],
         },
         {
           id: "2",
@@ -25,6 +25,28 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
            },
           allowed_urls: ["/services"],
         },
+        {
+            id: "3",
+            name: "Organization Two",
+            description: "Another organization",
+              metadata: {
+                  openAfter: 2,
+                  theme:"dark",
+                  primaryColor:"#1753EE"
+             },
+            allowed_urls: ["/about"],
+        },
+        {
+            id: "4",
+            name: "Organization Two",
+            description: "Another organization",
+              metadata: {
+                  openAfter: 1,
+                  theme:"dark",
+                  primaryColor:"#1753EE"
+             },
+            allowed_urls: ["/about"],
+          },
     ];
     
   const orgData = dummyData.filter(org => org.id === organizationId);
