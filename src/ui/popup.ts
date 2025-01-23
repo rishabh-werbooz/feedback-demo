@@ -25,7 +25,7 @@ export function showPopup(matchedOrg: any): void {
   popup.id = "custom-popup";
   popup.style.display = "flex";
   popup.style.flexDirection = "column";
-  popup.style.gap = "20px";
+  popup.style.gap = "12px";
   popup.style.position = "fixed";
   popup.style.zIndex = "9999999";
   popup.style.top = "50%";
@@ -35,16 +35,17 @@ export function showPopup(matchedOrg: any): void {
   popup.style.color = "#ffffff";
   popup.style.padding = "20px";
   popup.style.borderRadius = "10px";
-  popup.style.width = "500px";
+  popup.style.width = "100%";
+  popup.style.maxWidth="400px"
   popup.style.border = "1px solid white";
 
   popup.innerHTML = `
-    <h2 style="margin:0px;font-size: 35px;">Submit Your Feedback</h2>
-    <span>Fill out the form below to submit your feedback</span>
+    <h2 style="margin:0px;font-size: 27px;">Submit Your Feedback</h2>
+    <span style="font-size:14px;">Fill out the form below to submit your feedback</span>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-type" style="display: block; text-align: left; color: #bbb;">Type</label>
-      <select id="popup-type" style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;">
+      <label for="popup-type" style="display: block; text-align: left; color: #bbb;font-size:12px;">Type</label>
+      <select id="popup-type" style="padding: 6px 8px;font-size:14px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;">
         <option value="feature">Feature</option>
         <option value="bug">Bug</option>
         <option value="improvement">Improvement</option>
@@ -54,33 +55,33 @@ export function showPopup(matchedOrg: any): void {
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-title" style="display: block; text-align: left; color: #bbb;">Title</label>
+      <label for="popup-title" style="display: block; text-align: left; color: #bbb;font-size:12px;">Title</label>
       <input 
         type="text" 
         id="popup-title" 
         placeholder="Enter title"
               autocomplete="off" 
 
-        style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;"
+        style="padding: 6px 8px;font-size:14px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;"
       />
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-description" style="display: block; text-align: left; color: #bbb;">Description</label>
+      <label for="popup-description" style="display: block; text-align: left; color: #bbb;font-size:12px;">Description</label>
       <textarea 
         id="popup-description" 
         placeholder="Enter description" 
       autocomplete="off" 
         rows="5"
-        style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff; resize: none;"
+        style="padding: 6px 8px;font-size:14px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff; resize: none;"
       ></textarea>
     </div>
 
-    <div style="display: flex;justify-content: end;gap: 16px;">
-      <button id="popup-close" style="padding: 5px 20px; background-color: #000; border: 1px solid white; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+    <div style="display: flex;justify-content: end;gap: 12px;">
+      <button id="popup-close" style="padding: 5px 20px; background-color: #000; border: 1px solid white; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
         Cancel
       </button>
-      <button id="popup-submit" style="padding: 5px 20px; background-color: #39C3EF; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+      <button id="popup-submit" style="padding: 5px 20px; background-color: #39C3EF; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
         Submit
       </button>
     </div>
