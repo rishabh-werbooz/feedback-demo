@@ -27,7 +27,7 @@ export const saveToLocalStorage = (name: string, data: any): void => {
 }
 
 export const getFromLocalStorage = (name: string): any | null => {
-  const savedData = localStorage.getItem("popupFormData");
+  const savedData = localStorage.getItem(name);
   if (savedData) {
     const parsedData = JSON.parse(savedData);
     return parsedData
