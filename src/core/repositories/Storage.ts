@@ -20,3 +20,17 @@ export const saveToSessionStorage = (name:string,data: any): void => {
   const data = sessionStorage.getItem(name);
   return data ? JSON.parse(data) : null;
 };
+
+
+export const saveToLocalStorage = (name: string, data: any): void => {
+  localStorage.setItem(name, JSON.stringify(data));
+}
+
+export const getFromLocalStorage = (name: string): any | null => {
+  const savedData = localStorage.getItem("popupFormData");
+  if (savedData) {
+    const parsedData = JSON.parse(savedData);
+    return parsedData
+  }
+  return null
+}

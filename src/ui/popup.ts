@@ -1,3 +1,5 @@
+import { localStorageName } from "..";
+import { getFromLocalStorage, saveToLocalStorage } from "../core/repositories/Storage";
 import { handleSubmit } from "../core/usecases/handleSubmit";
 /**
  * Displays a feedback popup with form fields.
@@ -5,7 +7,7 @@ import { handleSubmit } from "../core/usecases/handleSubmit";
 export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
 
-  const { metadata,title,description } = matchedOrg;
+  const { id, metadata, title, description } = matchedOrg;
   const { openAfter, theme = "system", primaryColor = "#39C3EF",whiteLabel=true } = metadata;
 
   // Set theme-based styles
@@ -188,11 +190,6 @@ const removeStyles = () => {
         return;
       }
 
-      // if (!type || !title || !description) {
-      //   errorSpan.style.display = "block";
-      //   return
-      //   // show red error and fill the field red
-      // }
 
       handleSubmit({ type, title, description }).then((res:any) => {
         if (res.error) {
@@ -214,13 +211,15 @@ const removeStyles = () => {
             document.body.style.overflow = "";
             removeStyles();
           });
+
+          const data = getFromLocalStorage(localStorageName)
+          const submittedForms = data?.submittedForms ?? []
+          submittedForms.push(id)
+          saveToLocalStorage(localStorageName,{submittedForms:submittedForms})
           // res.message
           // show form submitted successfully popup
         }
       });
-      // overlay.remove();
-      // popup.remove();
-      // removeStyles(); // Remove styles after closing popup
     });
 
     // Close button click handler

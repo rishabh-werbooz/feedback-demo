@@ -1,14 +1,17 @@
 import { Organization } from "./core/entities/Organization";
 import { PropertiesType } from "./core/entities/Properties";
-import { saveToSessionStorage, getFromSessionStorage } from "./core/repositories/Storage";
+import { saveToSessionStorage, getFromSessionStorage, getFromLocalStorage } from "./core/repositories/Storage";
 import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { showPopup } from "./ui/popup";
 
 
-const orgDataStorageName = "prodio-feedback"
+const SessionStorageName = "prodio-feedback"
 
-const frequencyTypes = {
-  allTime: "All Time",
+export const localStorageName = "prodio-feedback-local"
+
+
+export const frequencyTypes = {
+  oneTime: "One Time",
   everySession: "Every Session",
   everyTime:"Every Time"
 }
@@ -47,7 +50,7 @@ export async function init({ organizationId,properties }: { organizationId: stri
   }
 
   // Save data in sessionStorage
-  saveToSessionStorage(orgDataStorageName,{userData:properties,orgData});
+  saveToSessionStorage(SessionStorageName,{userData:properties,orgData});
   console.log("Organization data saved in sessionStorage.");
 
   // Check if the current URL matches allowed URLs
@@ -59,7 +62,7 @@ export async function init({ organizationId,properties }: { organizationId: stri
  */
 function checkAndShowPopup(): void {
   const currentPath = window.location.pathname; // Get current path like "/login", "/", "/about"
-  const orgData = getFromSessionStorage(orgDataStorageName);
+  const orgData = getFromSessionStorage(SessionStorageName);
 
   if (!orgData) return;
 
@@ -70,14 +73,23 @@ function checkAndShowPopup(): void {
 
   if (matchedOrg) {
 
-    // const { formId, metadata } = matchedOrg
+    const { id, metadata } = matchedOrg
+    const { frequency } = metadata
 
-    // // get data from localstorage
+ 
 
+    const data = getFromLocalStorage(localStorageName)
 
-    // if (frequencyTypes.allTime) {
-    //   showPopup(matchedOrg);
-    // }
+    const forms = data?.submittedForms ?? []
+
+    if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
+      showPopup(matchedOrg);
+    }
+  
+// if((!PSF.includes(selectedForm.formId) || (PSF.includes(selectedForm.formId) && frequency === "every time"))){
+//   open popup
+// }
+
     showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");

@@ -1,3 +1,4 @@
+import { frequencyTypes } from "../..";
 import { Organization } from "../entities/Organization";
 
 export const fetchOrganizationData = ({ organizationId }:{organizationId:string}) => {
@@ -9,10 +10,11 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           title:"Submit feedback",
           description: "Sample organization",
             metadata: {
-                openAfter: 5,
+                openAfter: 1,
                 theme: "system",
                 primaryColor: "#39C3EF",
-                whiteLabel:false
+                whiteLabel: false,
+                frequency: frequencyTypes.oneTime
             },
           allowed_urls: ["/"],
         },
@@ -22,10 +24,11 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           title:"Submit feedback",
           description: "Another organization",
             metadata: {
-                openAfter: 10,
+                openAfter: 1,
                 theme:"light",
                 primaryColor: "red",
-                whiteLabel:false
+                whiteLabel:false,
+                frequency: frequencyTypes.everySession
            },
           allowed_urls: ["/about"],
         },
@@ -35,10 +38,11 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
             title:"Submit feedback",
             description: "Another organization",
               metadata: {
-                  openAfter: 2,
+                  openAfter: 1,
                   theme:"dark",
                   primaryColor: "#1753EE",
-                  whiteLabel:true
+                  whiteLabel:true,
+                  frequency: frequencyTypes.everyTime
              },
             allowed_urls: ["/services"],
         },
