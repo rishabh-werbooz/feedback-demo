@@ -153,20 +153,27 @@ const removeStyles = () => {
 
     document.body.style.overflow = "hidden";
 
+    const errorSpan = document.getElementById("popup-error") as HTMLSpanElement;
+
+    const inputs = [
+      document.getElementById("popup-type") as HTMLSelectElement,
+      document.getElementById("popup-title") as HTMLInputElement,
+      document.getElementById("popup-description") as HTMLTextAreaElement
+    ];
+
+    inputs.forEach(input => {
+      input.addEventListener("input", () => {
+        input.style.border = `1px solid ${borderColor}`;
+        errorSpan.style.display = "none";
+      });
+    });
+
+
     // Submit button click handler
     document.getElementById("popup-submit")!.addEventListener("click", () => {
       const type = (document.getElementById("popup-type") as HTMLSelectElement).value;
       const title = (document.getElementById("popup-title") as HTMLInputElement).value;
       const description = (document.getElementById("popup-description") as HTMLTextAreaElement).value;
-
-      const errorSpan = document.getElementById("popup-error") as HTMLSpanElement;
-
-
-      const inputs = [
-        document.getElementById("popup-type") as HTMLSelectElement,
-        document.getElementById("popup-title") as HTMLInputElement,
-        document.getElementById("popup-description") as HTMLTextAreaElement
-      ];
 
       let hasError = false;
       inputs.forEach(input => {
@@ -181,14 +188,11 @@ const removeStyles = () => {
         return;
       }
 
-
-
       // if (!type || !title || !description) {
       //   errorSpan.style.display = "block";
       //   return
       //   // show red error and fill the field red
       // }
-  
 
       handleSubmit({ type, title, description }).then((res:any) => {
         if (res.error) {
