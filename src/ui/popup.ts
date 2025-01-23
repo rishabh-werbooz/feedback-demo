@@ -58,7 +58,9 @@ export function showPopup(matchedOrg: any): void {
       <input 
         type="text" 
         id="popup-title" 
-        placeholder="Enter title" 
+        placeholder="Enter title"
+              autocomplete="off" 
+
         style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff;"
       />
     </div>
@@ -68,6 +70,7 @@ export function showPopup(matchedOrg: any): void {
       <textarea 
         id="popup-description" 
         placeholder="Enter description" 
+      autocomplete="off" 
         rows="5"
         style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff; resize: none;"
       ></textarea>
