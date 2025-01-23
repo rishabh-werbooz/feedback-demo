@@ -8,20 +8,15 @@ const dummyData: Organization[] = [
     id: "1",
     name: "Organization One",
     description: "Sample organization",
-    account_id: "acc-123",
-    metadata: { plan: "premium" },
-    allowed_url: ["/about", "/"],
-    created_at: "2024-01-01T12:00:00Z",
-    updated_at: "2024-02-01T12:00:00Z",
+    metadata: { openAfter:5 },
+    allowed_urls: ["/about", "/"],
   },
   {
     id: "2",
     name: "Organization Two",
     description: "Another organization",
-    account_id: "acc-456",
-    allowed_url: ["/services"],
-    created_at: "2024-01-15T12:00:00Z",
-    updated_at: "2024-02-10T12:00:00Z",
+    metadata: { openAfter:10 },
+    allowed_urls: ["/services"],
   },
 ];
 
@@ -63,11 +58,11 @@ function checkAndShowPopup(): void {
 
   // Check if any allowed URL matches the current path
   const matchedOrg = orgData.find((org) =>
-    org.allowed_url?.includes(currentPath)
+    org.allowed_urls?.includes(currentPath)
   );
 
   if (matchedOrg) {
-    showPopup();
+    showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");
   }
