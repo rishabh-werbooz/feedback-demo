@@ -10,7 +10,7 @@ interface FormInput {
    */
   export const handleSubmit = async (data: FormInput): Promise<any> => {
  
-  const res = await  fetch("https://webhook.site/9717a3d2-270d-4c87-a6c3-7d0b3b81702e", {
+    const res = await  fetch("https://webhook.site/2bf6bd07-3d47-4ff7-9c17-d1c60184c9eb", {
       method: "POST",
       mode:"no-cors",
       headers: {
@@ -18,8 +18,10 @@ interface FormInput {
       },
       body:JSON.stringify(data)
     })
+    
     const result = await res.json()
     return result
+    
     // Further processing such as API call can be added here
 };
   
