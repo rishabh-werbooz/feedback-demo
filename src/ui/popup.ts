@@ -117,7 +117,6 @@
 
 
 import { handleSubmit } from "../core/usecases/handleSubmit";
-
 /**
  * Displays a feedback popup with form fields.
  */
@@ -160,7 +159,7 @@ export function showPopup(matchedOrg: any): void {
   popup.style.color = textColor;
   popup.style.padding = "20px";
   popup.style.borderRadius = "10px";
-  popup.style.width = "100%";
+  popup.style.width = "90%";
   popup.style.maxWidth = "400px";
   // popup.style.border = `1px solid ${textColor}`;
   popup.style.boxShadow = '0 0 15px rgba(0,0,0,0.2)'
@@ -173,7 +172,7 @@ export function showPopup(matchedOrg: any): void {
   }
 
   popup.innerHTML = `
-    <h2 style="margin:0px;font-size: 27px;">Submit Your Feedback</h2>
+    <h2 class="prodio-feedback-form-heading">Submit Your Feedback</h2>
     <span style="font-size:14px;">Fill out the form below to submit your feedback</span>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
