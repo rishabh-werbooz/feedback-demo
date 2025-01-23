@@ -214,7 +214,7 @@ export function showPopup(matchedOrg: any): void {
         Submit
       </button>
     </div>
-    ${renderWhiteLabel}
+    ${renderWhiteLabel()}
   `;
 
   // Show popup after delay
