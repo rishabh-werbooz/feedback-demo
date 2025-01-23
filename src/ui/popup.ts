@@ -133,6 +133,21 @@ export function showPopup(matchedOrg: any): void {
   const borderColor = isDarkMode ? "#6a676778" : "#868484";
   const labelColor = isDarkMode ? "#bbb" : "#000";
 
+  const prodioFeedbackStyle = `
+  <style>
+    .prodio-feedback-form-heading{
+    font-size: 27px;
+    margin: 0;
+  }
+
+  @media screen and(max-width:700px) {
+    .prodio-feedback-form-heading{
+        font-size: 20px;
+    }
+  }
+  </style>
+  `
+
   // Create the overlay
   const overlay = document.createElement("div");
   overlay.id = "custom-popup-overlay";
@@ -170,6 +185,38 @@ export function showPopup(matchedOrg: any): void {
       return `<span style="display:none;"></span>`
     }
   }
+
+  
+  // Function to add styles dynamically without using an ID
+const addStyles = () => {
+  const styleElement = document.createElement("style");
+  styleElement.innerHTML = `
+    .prodio-feedback-form-heading {
+      font-size: 27px;
+      margin: 0;
+    }
+
+    @media screen and (max-width: 700px) {
+      .prodio-feedback-form-heading {
+        font-size: 20px;
+      }
+    }
+  `;
+  document.head.appendChild(styleElement);
+  };
+  
+
+  // Function to remove styles without using an ID
+const removeStyles = () => {
+  const styles = document.head.getElementsByTagName("style");
+  for (let i = 0; i < styles.length; i++) {
+    if (styles[i].innerHTML.includes(".prodio-feedback-form-heading")) {
+      styles[i].remove();
+      break;
+    }
+  }
+};
+
 
   popup.innerHTML = `
     <h2 class="prodio-feedback-form-heading">Submit Your Feedback</h2>
@@ -221,6 +268,7 @@ export function showPopup(matchedOrg: any): void {
 
   // Show popup after delay
   setTimeout(() => {
+    addStyles();  // Add styles before showing popup
     document.body.appendChild(overlay);
     document.body.appendChild(popup);
 
@@ -235,6 +283,7 @@ export function showPopup(matchedOrg: any): void {
       handleSubmit({ type, title, description });
       overlay.remove();
       popup.remove();
+      removeStyles(); // Remove styles after closing popup
     });
 
     // Close button click handler
@@ -242,6 +291,7 @@ export function showPopup(matchedOrg: any): void {
       overlay.remove();
       popup.remove();
       document.body.style.overflow = ""; // Re-enable scrolling
+      removeStyles(); // Remove styles after closing popup
     });
   }, openAfter * 1000); // Convert seconds to milliseconds
 }
