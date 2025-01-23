@@ -1,10 +1,17 @@
 import { Organization } from "./core/entities/Organization";
+import { PropertiesType } from "./core/entities/Properties";
 import { saveToSessionStorage, getFromSessionStorage } from "./core/repositories/Storage";
 import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { showPopup } from "./ui/popup";
 
 
 const orgDataStorageName = "prodio-feedback"
+
+const frequencyTypes = {
+  allTime: "All Time",
+  everySession: "Every Session",
+  everyTime:"Every Time"
+}
 
 
 /**
@@ -16,13 +23,7 @@ const orgDataStorageName = "prodio-feedback"
 properties: {
 
 }
-type PropertiesType = {
-  name:string,
-  email:string,
-  id: string,
-  phone_number: string,
-  job_title: string,
-}
+
 export async function init({ organizationId,properties }: { organizationId: string,properties:PropertiesType }): Promise<void> {
   if (!organizationId) {
     console.error("Error: organizationId is required.");
@@ -46,7 +47,7 @@ export async function init({ organizationId,properties }: { organizationId: stri
   }
 
   // Save data in sessionStorage
-  saveToSessionStorage(orgDataStorageName,orgData);
+  saveToSessionStorage(orgDataStorageName,{userData:properties,orgData});
   console.log("Organization data saved in sessionStorage.");
 
   // Check if the current URL matches allowed URLs
@@ -63,11 +64,20 @@ function checkAndShowPopup(): void {
   if (!orgData) return;
 
   // Check if any allowed URL matches the current path
-  const matchedOrg = orgData.find((org) =>
+  const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
     org.allowed_urls?.includes(currentPath)
   );
 
   if (matchedOrg) {
+
+    // const { formId, metadata } = matchedOrg
+
+    // // get data from localstorage
+
+
+    // if (frequencyTypes.allTime) {
+    //   showPopup(matchedOrg);
+    // }
     showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");

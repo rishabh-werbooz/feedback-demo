@@ -5,7 +5,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
     const dummyData: Organization[] = [
         {
           id: "1",
-            name: "Organization One",
+          name: "Organization One",
           title:"Submit feedback",
           description: "Sample organization",
             metadata: {
@@ -17,7 +17,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           allowed_urls: ["/"],
         },
         {
-          id: "1",
+          id: "2",
           name: "Organization Two",
           title:"Submit feedback",
           description: "Another organization",
@@ -27,12 +27,12 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                 primaryColor: "red",
                 whiteLabel:false
            },
-          allowed_urls: ["/services"],
+          allowed_urls: ["/about"],
         },
         {
-            id: "1",
+            id: "3",
             name: "Organization Two",
-          title:"Submit feedback",
+            title:"Submit feedback",
             description: "Another organization",
               metadata: {
                   openAfter: 2,
@@ -40,24 +40,11 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                   primaryColor: "#1753EE",
                   whiteLabel:true
              },
-            allowed_urls: ["/about"],
+            allowed_urls: ["/services"],
         },
-        {
-            id: "4",
-            name: "Organization Two",
-            title:"Submit feedback",
-            description: "Another organization",
-              metadata: {
-                  openAfter: 1,
-                  theme:"light",
-                  primaryColor: "#1753EE",
-                  whiteLabel:true
-             },
-            allowed_urls: ["/about"],
-          },
     ];
     
-  const orgData = dummyData.filter(org => org.id === organizationId);
+  // const orgData = dummyData.filter(org => org.id === organizationId);
 
-    return orgData
+    return dummyData
 }

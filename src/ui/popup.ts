@@ -158,10 +158,30 @@ const removeStyles = () => {
       const title = (document.getElementById("popup-title") as HTMLInputElement).value;
       const description = (document.getElementById("popup-description") as HTMLTextAreaElement).value;
 
-      handleSubmit({ type, title, description });
-      overlay.remove();
-      popup.remove();
-      removeStyles(); // Remove styles after closing popup
+      if (!type || !title || !description) {
+        // show red error and fill the field red
+      }
+  
+
+      handleSubmit({ type, title, description }).then((res:any) => {
+        if (res.error) {
+          // sho red error
+        } else {
+          popup.innerHTML = `
+            <h2 class="prodio-feedback-form-heading" style="text-align:center;">Form Submitted Successfully</h2>
+            <div>
+              <button id="popup-close" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
+                Submit
+              </button>
+            </div>
+          `
+          // res.message
+          // show form submitted successfully popup
+        }
+      });
+      // overlay.remove();
+      // popup.remove();
+      // removeStyles(); // Remove styles after closing popup
     });
 
     // Close button click handler
