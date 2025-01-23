@@ -10,7 +10,8 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
             metadata: {
                 openAfter: 5,
                 theme: "system",
-                primaryColor:"#39C3EF"
+                primaryColor: "#39C3EF",
+                whiteLabel:true
             },
           allowed_urls: ["/"],
         },
@@ -21,7 +22,8 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
             metadata: {
                 openAfter: 10,
                 theme:"light",
-                primaryColor:"red"
+                primaryColor: "red",
+                whiteLabel:true
            },
           allowed_urls: ["/services"],
         },
@@ -32,7 +34,8 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
               metadata: {
                   openAfter: 2,
                   theme:"dark",
-                  primaryColor:"#1753EE"
+                  primaryColor: "#1753EE",
+                  whiteLabel:false
              },
             allowed_urls: ["/about"],
         },
@@ -43,7 +46,8 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
               metadata: {
                   openAfter: 1,
                   theme:"light",
-                  primaryColor:"#1753EE"
+                  primaryColor: "#1753EE",
+                  whiteLabel:false
              },
             allowed_urls: ["/about"],
           },

@@ -163,6 +163,11 @@ export function showPopup(matchedOrg: any): void {
   popup.style.width = "100%";
   popup.style.maxWidth = "400px";
   popup.style.border = `1px solid ${textColor}`;
+  const renderWhiteLabel = () => {
+    if(whiteLabel) {
+      return `<span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>`
+    }
+  }
 
   popup.innerHTML = `
     <h2 style="margin:0px;font-size: 27px;">Submit Your Feedback</h2>
@@ -209,7 +214,7 @@ export function showPopup(matchedOrg: any): void {
         Submit
       </button>
     </div>
-    <span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>
+    ${renderWhiteLabel}
   `;
 
   // Show popup after delay
