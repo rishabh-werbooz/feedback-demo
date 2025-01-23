@@ -131,7 +131,7 @@ export function showPopup(matchedOrg: any): void {
   const isDarkMode = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const backgroundColor = isDarkMode ? "#000" : "#fff";
   const textColor = isDarkMode ? "#fff" : "#000";
-  const borderColor = isDarkMode ? "#6a676778" : "#ccc";
+  const borderColor = isDarkMode ? "#6a676778" : "#868484";
   const labelColor = isDarkMode ? "#bbb" : "#000";
 
   // Create the overlay

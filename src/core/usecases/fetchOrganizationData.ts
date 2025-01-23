@@ -42,7 +42,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
             description: "Another organization",
               metadata: {
                   openAfter: 1,
-                  theme:"dark",
+                  theme:"light",
                   primaryColor:"#1753EE"
              },
             allowed_urls: ["/about"],
