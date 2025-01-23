@@ -5,7 +5,8 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
     const dummyData: Organization[] = [
         {
           id: "1",
-          name: "Organization One",
+            name: "Organization One",
+          title:"Submit feedback",
           description: "Sample organization",
             metadata: {
                 openAfter: 5,
@@ -16,8 +17,9 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           allowed_urls: ["/"],
         },
         {
-          id: "2",
+          id: "1",
           name: "Organization Two",
+          title:"Submit feedback",
           description: "Another organization",
             metadata: {
                 openAfter: 10,
@@ -28,8 +30,9 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           allowed_urls: ["/services"],
         },
         {
-            id: "3",
+            id: "1",
             name: "Organization Two",
+          title:"Submit feedback",
             description: "Another organization",
               metadata: {
                   openAfter: 2,
@@ -42,6 +45,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
         {
             id: "4",
             name: "Organization Two",
+            title:"Submit feedback",
             description: "Another organization",
               metadata: {
                   openAfter: 1,
