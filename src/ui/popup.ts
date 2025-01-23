@@ -44,7 +44,7 @@ export function showPopup(matchedOrg: any): void {
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
       <label for="popup-type" style="display: block; text-align: left; color: #bbb;">Type</label>
-      <select id="popup-type" style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff;">
+      <select id="popup-type" style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;">
         <option value="feature">Feature</option>
         <option value="bug">Bug</option>
         <option value="improvement">Improvement</option>
@@ -61,7 +61,7 @@ export function showPopup(matchedOrg: any): void {
         placeholder="Enter title"
               autocomplete="off" 
 
-        style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff;"
+        style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff;"
       />
     </div>
 
@@ -72,7 +72,7 @@ export function showPopup(matchedOrg: any): void {
         placeholder="Enter description" 
       autocomplete="off" 
         rows="5"
-        style="padding: 10px; border-radius: 5px; border: none; background: #333; color: #fff; resize: none;"
+        style="padding: 10px; border-radius: 5px; border:  1px solid #6a676778; background: #000; color: #fff; resize: none;"
       ></textarea>
     </div>
 
