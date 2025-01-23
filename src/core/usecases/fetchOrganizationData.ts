@@ -5,7 +5,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
 
     const dummyData: Organization[] = [
         {
-          id: "1",
+          id: "1", //formid
           name: "Organization One",
           title:"Submit feedback",
           description: "Sample organization",

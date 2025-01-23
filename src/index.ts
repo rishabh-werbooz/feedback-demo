@@ -82,18 +82,13 @@ function checkAndShowPopup(): void {
 
     const forms = data?.submittedForms ?? []
 
-    console.log(data)
-    console.log(forms)
-    console.log(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime ))
+    // if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
+    //   showPopup(matchedOrg);
+    // }else {
+    //   console.log("Popup already submitted and frequency check not met.");
+    // }
 
-
-    if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
-      showPopup(matchedOrg);
-    }else {
-      console.log("Popup already submitted and frequency check not met.");
-    }
-
-    // showPopup(matchedOrg);
+    showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");
   }

@@ -103,7 +103,7 @@ const removeStyles = () => {
     <span class="prodio-feedback-form-description">${description}</span>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-type" style="display: block; text-align: left; color: ${labelColor};font-size:12px;">Type</label>
+      <label for="popup-type" style="display: block; text-align: left; color: ${labelColor};font-size:12px;">Type *</label>
       <select id="popup-type" style="padding: 6px 8px;font-size:14px; border-radius: 5px; border:  1px solid ${borderColor}; background: ${backgroundColor}; color: ${textColor};">
         <option value="feature">Feature</option>
         <option value="bug">Bug</option>
@@ -114,7 +114,7 @@ const removeStyles = () => {
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-title" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Title</label>
+      <label for="popup-title" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Title *</label>
       <input 
         type="text" 
         id="popup-title" 
@@ -125,7 +125,7 @@ const removeStyles = () => {
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-description" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Description</label>
+      <label for="popup-description" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Description *</label>
       <textarea 
         id="popup-description" 
         placeholder="Enter description" 
@@ -135,7 +135,7 @@ const removeStyles = () => {
       ></textarea>
     </div>
 
-    <span id="popup-error" style="color: red; display: none;">All fields are required</span>
+    <span id="popup-error" style="color: red; display: none; font-size:12px;">All fields are required</span>
     <div style="display: flex;justify-content: end;gap: 12px;">
       <button id="popup-close" style="padding: 5px 20px; background-color: ${backgroundColor}; border: 1px solid ${textColor}; border-radius: 5px; color: ${textColor}; font-size: 14px; cursor: pointer;">
         Cancel
