@@ -9,12 +9,14 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           name: "Organization One",
           title:"Submit feedback",
           description: "Sample organization",
-            metadata: {
-                openAfter: 1,
-                theme: "system",
-                primaryColor: "#39C3EF",
-                whiteLabel: false,
-                frequency: frequencyTypes.oneTime
+          metadata: {
+            title: "First Form",
+            description:"This is my first form",
+            openAfter: 1,
+            theme: "system",
+            primaryColor: "#39C3EF",
+            whiteLabel: false,
+            frequency: frequencyTypes.everyTime
             },
           allowed_urls: ["/"],
         },
@@ -23,7 +25,9 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           name: "Organization Two",
           title:"Submit feedback",
           description: "Another organization",
-            metadata: {
+          metadata: {
+            title: "Second Form",
+            description:"This is my second form",
                 openAfter: 1,
                 theme:"light",
                 primaryColor: "red",
@@ -37,7 +41,9 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
             name: "Organization Two",
             title:"Submit feedback",
             description: "Another organization",
-              metadata: {
+          metadata: {
+            title: "Third Form",
+            description:"This is my third form",
                   openAfter: 1,
                   theme:"dark",
                   primaryColor: "#1753EE",

@@ -1,5 +1,5 @@
-import { localStorageName } from "..";
-import { getFromLocalStorage, saveToLocalStorage } from "../core/repositories/Storage";
+import { localStorageName, SessionStorageName } from "..";
+import { getFromLocalStorage, getFromSessionStorage, saveToLocalStorage, saveToSessionStorage } from "../core/repositories/Storage";
 import { handleSubmit } from "../core/usecases/handleSubmit";
 /**
  * Displays a feedback popup with form fields.
@@ -7,8 +7,8 @@ import { handleSubmit } from "../core/usecases/handleSubmit";
 export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
 
-  const { id, metadata, title, description } = matchedOrg;
-  const { openAfter, theme = "system", primaryColor = "#39C3EF",whiteLabel=true } = metadata;
+  const { id, metadata } = matchedOrg;
+  const { title = "Submit your feedback", description ="Fill out the form below to submit you feedback", openAfter = 0, theme = "system", primaryColor = "#39C3EF",whiteLabel=false } = metadata;
 
   // Set theme-based styles
   const isDarkMode = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
@@ -169,6 +169,7 @@ const removeStyles = () => {
         errorSpan.style.display = "none";
       });
     });
+    const orgData = getFromSessionStorage(SessionStorageName);
 
 
     // Submit button click handler
@@ -191,7 +192,18 @@ const removeStyles = () => {
       }
 
 
-      handleSubmit({ type, title, description }).then((res:any) => {
+
+      
+      const dataToSend = {
+        type,
+        title,
+        description,
+        user_id: orgData?.userData?.id,
+        feedback_id:id
+      }
+
+
+      handleSubmit(dataToSend).then((res:any) => {
         if (res.error) {
           // sho red error
           errorSpan.textContent = res.error;
@@ -212,10 +224,10 @@ const removeStyles = () => {
             removeStyles();
           });
 
-          const data = getFromLocalStorage(localStorageName)
-          const submittedForms = data?.submittedForms ?? []
+          const submittedForms = orgData?.submittedForms ?? []
           submittedForms.push(id)
-          saveToLocalStorage(localStorageName,{submittedForms:submittedForms})
+            saveToSessionStorage(SessionStorageName,{...orgData,submittedForms});
+          // saveToLocalStorage(localStorageName,{submittedForms:submittedForms})
           // res.message
           // show form submitted successfully popup
         }
@@ -226,6 +238,9 @@ const removeStyles = () => {
     document.getElementById("popup-close")!.addEventListener("click", () => {
       overlay.remove();
       popup.remove();
+      const submittedForms = orgData?.submittedForms ?? []
+      submittedForms.push(id)
+        saveToSessionStorage(SessionStorageName,{...orgData,submittedForms});
       document.body.style.overflow = ""; // Re-enable scrolling
       removeStyles(); // Remove styles after closing popup
     });

@@ -5,13 +5,13 @@ import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { showPopup } from "./ui/popup";
 
 
-const SessionStorageName = "prodio-feedback"
+export const SessionStorageName = "prodio-feedback"
 
 export const localStorageName = "prodio-feedback-local"
 
 
 export const frequencyTypes = {
-  oneTime: "One Time",
+  // oneTime: "One Time",
   everySession: "Every Session",
   everyTime:"Every Time"
 }
@@ -23,9 +23,6 @@ export const frequencyTypes = {
  * @param {string} options.organizationId - The ID of the organization.
  */
 
-properties: {
-
-}
 
 export async function init({ organizationId,properties }: { organizationId: string,properties:PropertiesType }): Promise<void> {
   if (!organizationId) {
@@ -76,19 +73,19 @@ function checkAndShowPopup(): void {
     const { id, metadata } = matchedOrg
     const { frequency } = metadata
 
- 
+    // 
 
-    const data = getFromLocalStorage(localStorageName)
+    // const data = getFromLocalStorage(localStorageName)
 
-    const forms = data?.submittedForms ?? []
+    const forms = orgData?.submittedForms ?? []
 
-    // if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
-    //   showPopup(matchedOrg);
-    // }else {
-    //   console.log("Popup already submitted and frequency check not met.");
-    // }
+    if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
+      showPopup(matchedOrg);
+    }else {
+      console.log("Popup already submitted and frequency check not met.");
+    }
 
-    showPopup(matchedOrg);
+    // showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");
   }

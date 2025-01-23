@@ -1,7 +1,9 @@
 interface FormInput {
-    type: string;
-    title: string;
-    description: string;
+  type: string;
+  title: string;
+  description: string;
+  feedback_id: string;
+  user_id: string;
   }
   
   /**
