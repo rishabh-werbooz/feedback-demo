@@ -90,7 +90,7 @@ function checkAndShowPopup(): void {
 //   open popup
 // }
 
-    showPopup(matchedOrg);
+    // showPopup(matchedOrg);
   } else {
     console.log("No matching allowed URLs found for this page.");
   }
