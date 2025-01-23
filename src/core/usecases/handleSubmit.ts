@@ -19,7 +19,7 @@ interface FormInput {
       body:JSON.stringify(data)
     })
     
-    const result = await res.json()
+    // const result = await res.json()
     return {
   message:"Feedback submitted successfully"
 }
