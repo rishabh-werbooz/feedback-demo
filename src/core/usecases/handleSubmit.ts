@@ -20,7 +20,9 @@ interface FormInput {
     })
     
     const result = await res.json()
-    return result
+    return {
+  message:"Feedback submitted successfully"
+}
     
     // Further processing such as API call can be added here
 };
