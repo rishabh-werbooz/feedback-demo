@@ -92,6 +92,8 @@ export function showPopup(matchedOrg: any): void {
     document.body.appendChild(overlay);
     document.body.appendChild(popup);
 
+    document.body.style.overflow = "hidden";
+
     // Submit button click handler
     document.getElementById("popup-submit")!.addEventListener("click", () => {
       const type = (document.getElementById("popup-type") as HTMLSelectElement).value;
@@ -107,6 +109,7 @@ export function showPopup(matchedOrg: any): void {
     document.getElementById("popup-close")!.addEventListener("click", () => {
       overlay.remove();
       popup.remove();
+      document.body.style.overflow = ""; // Re-enable scrolling
     });
   }, openAfter * 1000); // Convert seconds to milliseconds
 }
