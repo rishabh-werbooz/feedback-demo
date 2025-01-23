@@ -82,13 +82,16 @@ function checkAndShowPopup(): void {
 
     const forms = data?.submittedForms ?? []
 
+    console.log(data)
+    console.log(forms)
+    console.log(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime ))
+
+
     if(!forms.includes(id) || (forms.includes(id) && frequency === frequencyTypes.everyTime )){
       showPopup(matchedOrg);
+    }else {
+      console.log("Popup already submitted and frequency check not met.");
     }
-  
-// if((!PSF.includes(selectedForm.formId) || (PSF.includes(selectedForm.formId) && frequency === "every time"))){
-//   open popup
-// }
 
     // showPopup(matchedOrg);
   } else {
