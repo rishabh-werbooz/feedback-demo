@@ -77,10 +77,10 @@ export function showPopup(matchedOrg: any): void {
     </div>
 
     <div style="display: flex;justify-content: end;gap: 16px;">
-      <button id="popup-close" style="padding: 12px 24px; background-color: #000; border: 1px solid white; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+      <button id="popup-close" style="padding: 5px 20px; background-color: #000; border: 1px solid white; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
         Cancel
       </button>
-      <button id="popup-submit" style="padding: 12px 24px; background-color: #39C3EF; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
+      <button id="popup-submit" style="padding: 5px 20px; background-color: #39C3EF; border: none; border-radius: 5px; color: #fff; font-size: 16px; cursor: pointer;">
         Submit
       </button>
     </div>
