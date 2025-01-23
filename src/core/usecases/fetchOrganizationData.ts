@@ -20,7 +20,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
           description: "Another organization",
             metadata: {
                 openAfter: 10,
-                theme:"system",
+                theme:"light",
                 primaryColor:"red"
            },
           allowed_urls: ["/services"],
