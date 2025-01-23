@@ -125,13 +125,14 @@ export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
 
   const { metadata } = matchedOrg;
-  const { openAfter, theme = "system", primaryColor = "#39C3EF" } = metadata;
+  const { openAfter, theme = "system", primaryColor = "#39C3EF",whiteLabel=true } = metadata;
 
   // Set theme-based styles
   const isDarkMode = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);
   const backgroundColor = isDarkMode ? "#000" : "#fff";
   const textColor = isDarkMode ? "#fff" : "#000";
   const borderColor = isDarkMode ? "#6a676778" : "#ccc";
+  const labelColor = isDarkMode ? "#bbb" : "#000";
 
   // Create the overlay
   const overlay = document.createElement("div");
@@ -141,7 +142,7 @@ export function showPopup(matchedOrg: any): void {
   overlay.style.left = "0";
   overlay.style.width = "100%";
   overlay.style.height = "100%";
-  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
+  overlay.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
   overlay.style.zIndex = "9999998";
 
   // Create the popup container
@@ -168,7 +169,7 @@ export function showPopup(matchedOrg: any): void {
     <span style="font-size:14px;">Fill out the form below to submit your feedback</span>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-type" style="display: block; text-align: left; color: #bbb;font-size:12px;">Type</label>
+      <label for="popup-type" style="display: block; text-align: left; color: ${labelColor};font-size:12px;">Type</label>
       <select id="popup-type" style="padding: 6px 8px;font-size:14px; border-radius: 5px; border:  1px solid ${borderColor}; background: ${backgroundColor}; color: ${textColor};">
         <option value="feature">Feature</option>
         <option value="bug">Bug</option>
@@ -179,7 +180,7 @@ export function showPopup(matchedOrg: any): void {
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-title" style="display: block; text-align: left; color: #bbb;font-size:12px;">Title</label>
+      <label for="popup-title" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Title</label>
       <input 
         type="text" 
         id="popup-title" 
@@ -190,7 +191,7 @@ export function showPopup(matchedOrg: any): void {
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 8px; width: 100%;">
-      <label for="popup-description" style="display: block; text-align: left; color: #bbb;font-size:12px;">Description</label>
+      <label for="popup-description" style="display: block; text-align: left; color:${labelColor};font-size:12px;">Description</label>
       <textarea 
         id="popup-description" 
         placeholder="Enter description" 
@@ -207,6 +208,7 @@ export function showPopup(matchedOrg: any): void {
       <button id="popup-submit" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
         Submit
       </button>
+      <span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>
     </div>
   `;
 
