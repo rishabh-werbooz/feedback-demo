@@ -11,7 +11,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                 openAfter: 5,
                 theme: "system",
                 primaryColor: "#39C3EF",
-                whiteLabel:true
+                whiteLabel:false
             },
           allowed_urls: ["/"],
         },
@@ -23,7 +23,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                 openAfter: 10,
                 theme:"light",
                 primaryColor: "red",
-                whiteLabel:true
+                whiteLabel:false
            },
           allowed_urls: ["/services"],
         },
@@ -35,7 +35,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                   openAfter: 2,
                   theme:"dark",
                   primaryColor: "#1753EE",
-                  whiteLabel:false
+                  whiteLabel:true
              },
             allowed_urls: ["/about"],
         },
@@ -47,7 +47,7 @@ export const fetchOrganizationData = ({ organizationId }:{organizationId:string}
                   openAfter: 1,
                   theme:"light",
                   primaryColor: "#1753EE",
-                  whiteLabel:false
+                  whiteLabel:true
              },
             allowed_urls: ["/about"],
           },

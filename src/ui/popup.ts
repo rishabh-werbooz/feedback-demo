@@ -164,8 +164,10 @@ export function showPopup(matchedOrg: any): void {
   popup.style.maxWidth = "400px";
   popup.style.border = `1px solid ${textColor}`;
   const renderWhiteLabel = () => {
-    if(whiteLabel) {
+    if(!whiteLabel) {
       return `<span style="font-size:9px;color:#39C3EF;text-align:right;">Powered by Prodio</span>`
+    } else {
+      return `<span style="display:none;"></span>`
     }
   }
 
