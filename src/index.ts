@@ -59,7 +59,9 @@ export async function init({ organizationId,properties }: { organizationId: stri
  * Checks if the current page URL is allowed and triggers the popup if applicable.
  */
 function checkAndShowPopup(): void {
-  const currentPath = window.location.pathname; // Get current path like "/login", "/", "/about"
+  // const currentPath = window.location.pathname; // Get current path like "/login", "/", "/about"
+  const currentPath = window.location.href; // Get full URL including hostname, e.g., "https://example.com/login"
+
   const orgData = getFromSessionStorage(SessionStorageName);
 
   if (!orgData) return;
