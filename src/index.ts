@@ -68,7 +68,7 @@ function checkAndShowPopup(): void {
 
   // Check if any allowed URL matches the current path
   const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
-    org.allowed_urls?.includes(currentPath)
+    org.allowed_url?.includes(currentPath)
   );
 
   if (matchedOrg) {
