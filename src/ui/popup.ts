@@ -212,7 +212,7 @@ const removeStyles = () => {
           errorSpan.style.display = "block";
         } else {
           popup.innerHTML = `
-            <h2 class="prodio-feedback-form-heading" style="text-align:center;">Form Submitted Successfully</h2>
+            <h2 class="prodio-feedback-form-heading" style="text-align:center;">Thank you for you feedback</h2>
             <div style="display:flex;justify-content:center;margin-top:20px;">
               <button id="done-button" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
                 Done
