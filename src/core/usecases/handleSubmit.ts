@@ -18,33 +18,18 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
  
     const res = await  fetch(url, {
       method: "POST",
-      mode:"no-cors",
       headers: {
         'Content-Type':"application/json"
       },
       body:JSON.stringify(data)
     })
     
-  console.log(res)
-  console.log(res.ok)
-  console.log(res.status)
   
-
-  if (res.ok) {
-    return {
-      message:"Feedback submitted successfully"
-    }
-  } else {
-    return {
-      error: "Failed to save data",
-     }
-    }
-  
-    // const result = await res.json()
+    const result = await res.json()
 //     return {
 //   message:"Feedback submitted successfully"
 // }
-  //  return result 
+   return result 
     // Further processing such as API call can be added here
 };
   
