@@ -58,9 +58,7 @@ export const fetchOrganizationData = async ({ organizationId }:{organizationId:s
   // const orgData = dummyData.filter(org => org.id === organizationId);
   
   const url = serverUrl + `/feedback?id=${organizationId}` 
-  const res = await fetch(url, {
-    mode:"no-cors",
-  })
+  const res = await fetch(url)
 
   const result = await res.json()
     return result?.data ?? []

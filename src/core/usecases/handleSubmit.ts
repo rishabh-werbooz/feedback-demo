@@ -18,7 +18,6 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
  
     const res = await  fetch(url, {
       method: "POST",
-      mode:"no-cors",
       headers: {
         'Content-Type':"application/json"
       },
