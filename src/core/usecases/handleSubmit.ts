@@ -1,3 +1,5 @@
+import { serverUrl } from "./serverUrl";
+
 interface FormInput {
   type: string;
   title: string;
@@ -10,9 +12,11 @@ interface FormInput {
    * Handles form submission by validating and processing the input data.
    * @param input FormInput
    */
-  export const handleSubmit = async (data: FormInput): Promise<any> => {
+export const handleSubmit = async (data: FormInput): Promise<any> => {
+    
+  const url = serverUrl + "/feedback"
  
-    const res = await  fetch("https://webhook.site/2bf6bd07-3d47-4ff7-9c17-d1c60184c9eb", {
+    const res = await  fetch(url, {
       method: "POST",
       mode:"no-cors",
       headers: {
@@ -21,11 +25,11 @@ interface FormInput {
       body:JSON.stringify(data)
     })
     
-    // const result = await res.json()
-    return {
-  message:"Feedback submitted successfully"
-}
-    
+    const result = await res.json()
+//     return {
+//   message:"Feedback submitted successfully"
+// }
+   return result 
     // Further processing such as API call can be added here
 };
   

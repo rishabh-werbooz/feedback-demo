@@ -8,7 +8,9 @@ export function showPopup(matchedOrg: any): void {
   if (document.getElementById("custom-popup-overlay")) return; // Avoid duplicate popups
 
   const { id, metadata } = matchedOrg;
-  const { frequency,title = "Submit your feedback", description ="Fill out the form below to submit you feedback", openAfter = 0, theme = "system", primaryColor = "#39C3EF",whiteLabel=false } = metadata;
+  const { frequency, openAfter = 0, form, whiteLabel=false } = metadata;
+
+  const {title = "Submit your feedback", description ="Fill out the form below to submit you feedback",theme = "system", primaryColor = "#39C3EF"} = form
 
   // Set theme-based styles
   const isDarkMode = theme === "dark" || (theme === "system" && window.matchMedia("(prefers-color-scheme: dark)").matches);

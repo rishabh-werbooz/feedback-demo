@@ -74,7 +74,7 @@ function checkAndShowPopup(): void {
   if (matchedOrg) {
 
     const { id, metadata } = matchedOrg
-    const { frequency } = metadata
+    // const { frequency } = metadata
 
 
     // const data = getFromLocalStorage(localStorageName)
