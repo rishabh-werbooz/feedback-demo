@@ -25,7 +25,7 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
       body:JSON.stringify(data)
     })
     
-  if (res.status === 201) {
+  if (res.ok) {
     return {
       message:"Feedback submitted successfully"
     }
