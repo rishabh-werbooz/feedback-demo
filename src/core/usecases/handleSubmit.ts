@@ -25,11 +25,21 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
       body:JSON.stringify(data)
     })
     
-    const result = await res.json()
+  if (res.status === 201) {
+    return {
+      message:"Feedback submitted successfully"
+    }
+  } else {
+    return {
+      error: "Failed to save data",
+     }
+    }
+  
+    // const result = await res.json()
 //     return {
 //   message:"Feedback submitted successfully"
 // }
-   return result 
+  //  return result 
     // Further processing such as API call can be added here
 };
   
