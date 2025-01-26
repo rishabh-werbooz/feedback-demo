@@ -25,12 +25,12 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
       body:JSON.stringify(data)
     })
     
-  console.log(res)
-    // const result = await res.json()
-    return {
-  message:"Feedback submitted successfully"
-}
-  //  return result 
+  // console.log(res)
+    const result = await res.json()
+//     return {
+//   message:"Feedback submitted successfully"
+// }
+   return result 
     // Further processing such as API call can be added here
 };
   
