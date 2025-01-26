@@ -18,7 +18,7 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
  
     const res = await  fetch(url, {
       method: "POST",
-      mode:"no-cors",
+      // mode:"no-cors",
       headers: {
         'Content-Type':"application/json"
       },
@@ -26,11 +26,11 @@ export const handleSubmit = async (data: FormInput): Promise<any> => {
     })
     
   
-    // const result = await res.json()
-    return {
-  message:"Feedback submitted successfully"
-}
-  //  return result 
+    const result = await res.json()
+//     return {
+//   message:"Feedback submitted successfully"
+// }
+   return result 
     // Further processing such as API call can be added here
 };
   
