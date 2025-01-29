@@ -71,8 +71,8 @@ function checkAndShowPopup(): void {
   // const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
   //   org.allowed_url?.includes(currentPath)
   // );
-
-  const matchedOrg = getMatchedUrlItem(currentPath,orgData)
+const result = orgData.orgData ?? []
+  const matchedOrg = getMatchedUrlItem(currentPath,result)
 
   if (matchedOrg) {
 
