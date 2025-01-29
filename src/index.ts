@@ -2,6 +2,7 @@ import { Organization } from "./core/entities/Organization";
 import { PropertiesType } from "./core/entities/Properties";
 import { saveToSessionStorage, getFromSessionStorage, getFromLocalStorage } from "./core/repositories/Storage";
 import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
+import { getMatchedUrlItem } from "./core/usecases/getMatchedUrlItem";
 import { showPopup } from "./ui/popup";
 
 
@@ -67,9 +68,11 @@ function checkAndShowPopup(): void {
   if (!orgData) return;
 
   // Check if any allowed URL matches the current path
-  const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
-    org.allowed_url?.includes(currentPath)
-  );
+  // const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
+  //   org.allowed_url?.includes(currentPath)
+  // );
+
+  const matchedOrg = getMatchedUrlItem(currentPath,orgData)
 
   if (matchedOrg) {
 
