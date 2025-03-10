@@ -1,8 +1,10 @@
 import { Organization } from "./core/entities/Organization";
 import { PropertiesType } from "./core/entities/Properties";
+import { PublicFeedbackTypes } from "./core/entities/PublicFeedback";
 import { saveToSessionStorage, getFromSessionStorage, getFromLocalStorage } from "./core/repositories/Storage";
 import { fetchOrganizationData } from "./core/usecases/fetchOrganizationData";
 import { getMatchedUrlItem } from "./core/usecases/getMatchedUrlItem";
+import { openFeedbackSlider } from "./ui/feedbackSlider";
 import { showPopup } from "./ui/popup";
 
 
@@ -25,9 +27,14 @@ export const frequencyTypes = {
  */
 
 
-export async function init({ organizationId,properties }: { organizationId: string,properties:PropertiesType }): Promise<void> {
+export async function init({ organizationId,websiteId,properties }: { organizationId: string,websiteId: string,properties:PropertiesType }): Promise<void> {
   if (!organizationId) {
     console.error("Error: organizationId is required.");
+    return;
+  }
+
+  if (!websiteId) {
+    console.error("Error: websiteId is required.");
     return;
   }
 
@@ -50,11 +57,30 @@ export async function init({ organizationId,properties }: { organizationId: stri
       return;
     }
     // Save data in sessionStorage
-    saveToSessionStorage(SessionStorageName,{userData:properties,orgData});
+    saveToSessionStorage(SessionStorageName,{organizationId,websiteId,userData:properties,orgData});
   }
   // Check if the current URL matches allowed URLs
   checkAndShowPopup();
 }
+
+export function publicFeedback({ form }: PublicFeedbackTypes): void {
+  const orgData = getFromSessionStorage(SessionStorageName);
+
+  if (!orgData) {
+    console.error("Error: Package not initialized.");
+    return
+  };
+
+  const { organizationId, websiteId, userData } = orgData;
+
+  const openFeedbackData = {
+    orgData,
+    form
+  }
+
+  openFeedbackSlider(openFeedbackData)
+  
+} 
 
 /**
  * Checks if the current page URL is allowed and triggers the popup if applicable.
