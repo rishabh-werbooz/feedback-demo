@@ -7,7 +7,7 @@ import { PropertiesType } from "../entities/Properties";
  */
 
 // export const saveToSessionStorage = (name:string,data: {userData:PropertiesType,orgData:Organization[]}): void => {
-export const saveToSessionStorage = (name:string,data: any): void => {
+export const saveToSessionStorage = (name: string, data: any): void => {
   sessionStorage.setItem(name, JSON.stringify(data));
 };
 
@@ -16,7 +16,7 @@ export const saveToSessionStorage = (name:string,data: any): void => {
  * @returns Organization[] | null
  */
 // export const getFromSessionStorage = (name:string): Organization[] | null => {
-  export const getFromSessionStorage = (name:string): any | null => {
+export const getFromSessionStorage = (name: string): any | null => {
   const data = sessionStorage.getItem(name);
   return data ? JSON.parse(data) : null;
 };

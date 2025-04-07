@@ -1,6 +1,8 @@
 import { frequencyTypes, localStorageName, SessionStorageName } from "..";
+import { SubmissionMode } from "../core/lib/enum";
 import { getFromLocalStorage, getFromSessionStorage, saveToLocalStorage, saveToSessionStorage } from "../core/repositories/Storage";
 import { handleSubmit } from "../core/usecases/handleSubmit";
+import { whiteLabelRender } from "./whiteLabel";
 /**
  * Displays a feedback popup with form fields.
  */
@@ -52,7 +54,7 @@ export function showPopup(matchedOrg: any): void {
   popup.style.boxShadow = '0 0 15px rgba(0,0,0,0.2)'
   const renderWhiteLabel = () => {
     if(!whiteLabel) {
-      return `${whiteLabel()}`
+      return `${whiteLabelRender({})}`
       // return `<a style="font-size:9px;color:#39C3EF;text-align:right;text-decoration:none;" href="https://prodio.app" target="_blank">Powered by Prodio</a>`
     } else {
       return `<span style="display:none;"></span>`
@@ -197,14 +199,31 @@ const removeStyles = () => {
 
 
       
-      const dataToSend = {
-        type,
-        title,
-        description,
-        user_id: orgData?.userData?.id,
-        feedback_id:id
-      }
+      
+      const website = window.location.hostname
 
+      const dataToSend = {
+        title: title,
+        description: description ?? "",
+        type: type,    // How we will define its a type of feature, tasks, or bug, we can add more types here.
+        feedback_id: id,
+        source: {
+          id: website,
+          name: "popup", 
+          type: "Website",
+        },
+        user_id: orgData?.userData?.id,
+        user_name: orgData?.userData?.name,
+        user_email: orgData?.userData?.email,
+        created_at: new Date(),
+        updated_at: new Date(),
+        last_retrieved_message: false,
+        account_id: orgData?.organizationId,
+        meta_data: null,
+        is_public: false,
+        website_id: orgData?.websiteId,
+        submission_mode:SubmissionMode.feedback 
+      }
 
       handleSubmit(dataToSend).then((res:any) => {
         if (res.error) {
@@ -213,7 +232,7 @@ const removeStyles = () => {
           errorSpan.style.display = "block";
         } else {
           popup.innerHTML = `
-            <h2 class="prodio-feedback-form-heading" style="text-align:center;">Thank you for you feedback</h2>
+            <h2 class="prodio-feedback-form-heading" style="text-align:center;">Thank you for your feedback</h2>
             <div style="display:flex;justify-content:center;margin-top:20px;">
               <button id="done-button" style="padding: 5px 20px; background-color: ${primaryColor}; border: none; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
                 Done

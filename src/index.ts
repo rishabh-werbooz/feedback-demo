@@ -16,7 +16,7 @@ export const localStorageName = "prodio-feedback-local"
 export const frequencyTypes = {
   // oneTime: "One Time",
   everySession: "Every Session",
-  everyTime:"Every Time"
+  everyTime: "Every Time"
 }
 
 
@@ -27,7 +27,7 @@ export const frequencyTypes = {
  */
 
 
-export async function init({ organizationId,websiteId,properties }: { organizationId: string,websiteId: string,properties:PropertiesType }): Promise<void> {
+export async function init({ organizationId, websiteId, properties }: { organizationId: string, websiteId: string, properties: PropertiesType }): Promise<void> {
   if (!organizationId) {
     console.error("Error: organizationId is required.");
     return;
@@ -37,10 +37,11 @@ export async function init({ organizationId,websiteId,properties }: { organizati
     console.error("Error: websiteId is required.");
     return;
   }
+ 
 
   const requiredFields: (keyof PropertiesType)[] = ["name", "phone_number", "id", "job_title", "email"];
   const missingFields = requiredFields.filter(field => !properties[field]);
-  
+
   if (missingFields.length > 0) {
     console.error(`Error: Missing the following fields: [${missingFields.join(", ")}]`);
     return;
@@ -51,36 +52,36 @@ export async function init({ organizationId,websiteId,properties }: { organizati
 
   if (existingData?.userData?.id !== properties.id) {
     // Find the organization data based on the provided ID
-    const orgData = await fetchOrganizationData({organizationId})
-    if(!orgData.length) {
+    const orgData = await fetchOrganizationData({ organizationId,websiteId })
+    if (!orgData.length) {
       console.error("Error: Organization not found for ID", organizationId);
       return;
     }
     // Save data in sessionStorage
-    saveToSessionStorage(SessionStorageName,{organizationId,websiteId,userData:properties,orgData});
+    saveToSessionStorage(SessionStorageName, { organizationId, websiteId, userData: properties, orgData,newFeedbackCount:5 });
   }
   // Check if the current URL matches allowed URLs
   checkAndShowPopup();
 }
 
-export function publicFeedback({ form }: PublicFeedbackTypes): void {
+
+export function publicFeedback({ form, config }: PublicFeedbackTypes): void {
   const orgData = getFromSessionStorage(SessionStorageName);
 
   if (!orgData) {
-    console.error("Error: Package not initialized.");
+    console.error("Error: OrganizationId not found");
     return
   };
 
-  const { organizationId, websiteId, userData } = orgData;
-
   const openFeedbackData = {
     orgData,
-    form
+    form,
+    config
   }
 
   openFeedbackSlider(openFeedbackData)
-  
-} 
+
+}
 
 /**
  * Checks if the current page URL is allowed and triggers the popup if applicable.
@@ -97,8 +98,8 @@ function checkAndShowPopup(): void {
   // const matchedOrg = (orgData.orgData ?? []).find((org:any) =>
   //   org.allowed_url?.includes(currentPath)
   // );
-const result = orgData.orgData ?? []
-  const matchedOrg = getMatchedUrlItem(currentPath,result)
+  const result = orgData.orgData ?? []
+  const matchedOrg = getMatchedUrlItem(currentPath, result)
 
   if (matchedOrg) {
 
@@ -109,10 +110,10 @@ const result = orgData.orgData ?? []
     // const data = getFromLocalStorage(localStorageName)
 
     const forms = orgData?.submittedForms ?? []
-//  || (forms.includes(id) && frequency === frequencyTypes.everyTime )
-    if(!forms.includes(id)){
+    //  || (forms.includes(id) && frequency === frequencyTypes.everyTime )
+    if (!forms.includes(id)) {
       showPopup(matchedOrg);
-    }else {
+    } else {
       console.log("Popup already submitted and frequency check not met.");
     }
 
