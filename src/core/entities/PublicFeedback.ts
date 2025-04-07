@@ -8,7 +8,8 @@ export interface PublicFeedbackTypes {
         primaryColor?: string;
         heading?: {
             ideas?: string,
-            announcement?: string
+            announcement?: string,
+            roadMap?:string,
         };
 
     }
