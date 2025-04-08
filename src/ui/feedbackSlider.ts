@@ -338,6 +338,18 @@ background-color:rgba(236,236,236,0.5)
             </div>
         </div>
     `;
+
+    setTimeout(() => {
+      const closeButton = document.getElementById("slider-close-button")
+      // Add click event to close button
+      if (closeButton) {
+        closeButton.addEventListener("click", (event) => {
+          closeSlider();
+          event.stopPropagation(); // Prevent event from bubbling up
+        });
+  
+      }
+    }, 100);
   }
 
   // Attach a single event listener to the parent container
@@ -389,17 +401,17 @@ background-color:rgba(236,236,236,0.5)
 
 
 
-  setTimeout(() => {
-    const closeButton = document.getElementById("slider-close-button")
-    // Add click event to close button
-    if (closeButton) {
-      closeButton.addEventListener("click", (event) => {
-        closeSlider();
-        event.stopPropagation(); // Prevent event from bubbling up
-      });
+  // setTimeout(() => {
+  //   const closeButton = document.getElementById("slider-close-button")
+  //   // Add click event to close button
+  //   if (closeButton) {
+  //     closeButton.addEventListener("click", (event) => {
+  //       closeSlider();
+  //       event.stopPropagation(); // Prevent event from bubbling up
+  //     });
 
-    }
-  }, 100);
+  //   }
+  // }, 100);
   // Function to close the slider when clicking outside
   const handleOutsideClick = (event: MouseEvent) => {
     if (!slider.contains(event.target as Node)) {
