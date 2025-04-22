@@ -131,7 +131,7 @@ export const announcementContainer = async (data: any) => {
     const { orgData, config } = data;
     const { primaryColor = configData?.primaryColor } = config ?? {};
     const accountId = orgData?.organizationId;
-    const websiteId = orgData
+    const websiteId = orgData?.websiteId;
 
     let currentPage = 1;
     let isFetching = false; // Prevent multiple requests

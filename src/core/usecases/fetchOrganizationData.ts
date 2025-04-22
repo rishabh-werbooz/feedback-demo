@@ -62,7 +62,7 @@ export const fetchOrganizationData = async ({ organizationId,websiteId, source =
   const res = await fetch(url)
 
   const result = await res.json()
-  if (source === "newsfeed") {
+  if (source === "announcement") {
     return result
   }
   return result?.data ?? []
