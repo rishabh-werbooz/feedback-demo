@@ -22,7 +22,6 @@ export const addMDXStyles = () => {
 
     #prodio-announcement-description a {
       font-size: 14px;
-      color: blue;
       text-decoration: underline;
     }
 
@@ -49,7 +48,6 @@ export const addMDXStyles = () => {
     #prodio-announcement-description h3,
     #prodio-announcement-description p,
     #prodio-announcement-description ul{
-      color:#474747;
       margin-bottom: 10px;
     }
   `;

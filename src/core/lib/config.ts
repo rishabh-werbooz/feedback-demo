@@ -4,16 +4,17 @@ export const formMetaData = {
 }
 
 export const configData = {
-    primaryColor: "#3d50e0",
+    primaryColor: "#575BC7",
+    theme:"system", // system, light, dark
     heading: {
-        ideas: "Prodio Ideas",
-        announcement: "What's new on Prodio",
-        roadMap:"Prodio Roadmap"
+        ideas: "Feedback",
+        announcement: "Announcements",
+        roadMap:"Roadmap"
     }
 }
 
 export const websiteMetaData = {
-    name: "Powered by Prodio",
+    name: "Powered by Oppla",
     url: "https://prodio.app"
 }
 

@@ -1,47 +1,92 @@
-import { FeedbackTypesArray } from "../../core/lib/enum"
-import { marked } from "marked";  
+import { marked } from "marked";
+import { FeedbackTypesArray } from "../../core/lib/enum";
 
-export const announcementCard = (feed: any, primaryColor: string) => {
-    const { name, updated_at, is_new, description, id } = feed
+export const announcementCard = (feed: any, primaryColor: string, isDarkMode: boolean) => {
+    const { name, updated_at, is_new, description, id } = feed;
     const htmlDescription = marked(description);
+
+    const cardBorderColor = isDarkMode ? "1px solid #52526FBF" : "1px solid #E2E8F0";
+    const cardBgColor = isDarkMode ? "#25263061" : "transparent";
+    const titleColor = isDarkMode ? "#D2D3E0" : "#303540";
+    const descriptionColor = isDarkMode ? "#858699" : "#303540CC";
+    const newChipColor = isDarkMode ? "#FFFFFFD9" : "#1F2026";
+    const newChipTextColor = isDarkMode ? "#1F2026" : "#F8F9FA";
+
+    const fieldBg = isDarkMode ? "#222429" : "#FFFFFF";
+    const fieldTextColor = isDarkMode ? "#FAFAFA" : "#303540";
+    const fieldBorder = isDarkMode ? "1px solid #52526F40" : "1px solid #E5E7EB";
+
     return `
     <div
         style="
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-            padding:10px;
+            background-color:${cardBgColor};
+            border:${cardBorderColor};
+            padding:20px;
             display:flex;
             flex-direction:column;
             gap:10px;
-            border-radius: 2px;
+            border-radius: 6px;
         "
-        data-id="${feed.id}" 
+        data-id="${id}" 
         class="announcement-card"
     >
-        <div style="display:flex;gap:10px;align-items:center;">
-            ${is_new ? `<span style="background-color:#FF5A80;width:max-content;padding:6px 6px 3px 6px ;border-radius:10px;;color:#fff;font-size:10px;">NEW</span>` : ""} 
-            <span style="color:#8DA2B5;font-size:14px;">${updated_at}</span>
+    <div
+        style="
+            display:grid;
+            grid-template-columns: ${is_new ? "10fr 2fr" : "12fr"};
+            gap:10px;
+            align-items:start;
+        "
+    >
+
+
+        <div style="display:flex;gap:5px;flex-direction:column;">
+            <h3 style="color:${titleColor};font-size:16px;font-weight:700; line-height: 1.4;">${name}</h3>
+            <span style="color:${descriptionColor};font-size:10px;">${updated_at}</span>
         </div>
-    <h3  style="color:#474747;font-size:18px;font-weight:700; line-height: 1.4;">${name}</h3>
-    <span id="prodio-announcement-description">${htmlDescription}</span>
     
-   <div style="display:flex;flex-direction:column;gap:10px;background-color:#9C9C9C1A;margin:0 -10px -10px -10px; padding:20px 10px;">
-
-      <select placeholder="select" class="prodio-announcement-comment-type" style="padding: 6.5px 7px;font-size:14px; border-radius: 5px; outline:none; border:none; background: white; color:#474747;" >
-            ${FeedbackTypesArray.map((option: any) => (
-        `<option value="${option?.value}">${option?.label}</option>`
-    ))}
-          </select>
-    <input type="text" class="prodio-announcement-comment-title" placeholder="Add a comment..." style="padding: 4px 10px;font-size:14px; border-radius: 5px; outline:none; border:none; background: white; color:#474747;"/>
-    <div>
-        <button 
-        class="prodio-announcement-comment-submit"
-        style="padding: 5px 20px;border: none; width:max-content; background-color: ${primaryColor}; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;"
+    
+        <div
+            style="
+                display:${is_new ? "flex" : "none"};
+                justify-content:end;
+            "
         >
-        Submit
-        </button>
+            <span 
+                style="
+                    background-color:${newChipColor};
+                    width:max-content;
+                    padding:6px 6px 3px 6px ;
+                    border-radius:5px;
+                    color:${newChipTextColor};
+                    font-size:10px;
+                "
+            >
+                NEW
+            </span>
         </div>
 
-   </div>
     </div>
-    `
-}
+
+        
+        <span id="prodio-announcement-description" style="color:${descriptionColor}">${htmlDescription}</span>
+        
+        <button class="toggle-comment-box" style="padding: 6px 10px; font-size: 14px; border: none; background-color: ${primaryColor}; color: white; border-radius: 5px; width: max-content; cursor: pointer;">
+            Leave a comment
+        </button>
+
+        <div class="comment-box" style="display: none; flex-direction: column; gap: 20px;">
+            <select class="prodio-announcement-comment-type" style="height:30px;padding: 6px 8px;font-size:12px; border-radius: 5px; background: ${fieldBg}; color: ${fieldTextColor}; border:${fieldBorder};">
+                ${FeedbackTypesArray.map((option: any) => (
+        `<option value="${option?.value}">${option?.label}</option>`
+    )).join("")}
+            </select>
+            <input type="text" class="prodio-announcement-comment-title" placeholder="Add a comment..." style="padding: 6px 8px;font-size:12px; border-radius: 5px; background: ${fieldBg}; color: ${fieldTextColor};border:${fieldBorder};" />
+            <div style="display: flex; gap: 10px;">
+                <button class="prodio-announcement-comment-submit" style="padding: 5px 20px; background-color: ${primaryColor}; color: white; border: none; border-radius: 5px; font-size: 14px; cursor: pointer;">Submit</button>
+                <button class="cancel-comment" style="padding: 5px 20px; background-color: #ccc; color: black; border: none; border-radius: 5px; font-size: 14px; cursor: pointer;">Cancel</button>
+            </div>
+        </div>
+    </div>
+    `;
+};

@@ -9,6 +9,7 @@ import { announcementContainer } from "../components/announcement";
 import { addMDXStyles } from "../components/reuseables/mdxStyles";
 import { roadMapContainer } from "../components/roadMap";
 import { renderRoadMapIcon } from "../components/reuseables/roadMapIcon";
+import { checkIsDarkMode } from "../components/reuseables/checkIsDarkMode";
 
 /**
  * Fetches feedbacks from the server.
@@ -24,12 +25,13 @@ export async function openFeedbackSlider(data: any): Promise<void> {
   if (document.getElementById("custom-slider-overlay")) return; // Avoid duplicate sliders
 
   const { orgData, config } = data;
-  const { primaryColor = configData?.primaryColor, heading = configData.heading } = config ?? {}
-  const { ideas = configData.heading.ideas, announcement = configData.heading.announcement,roadMap=configData.heading.roadMap } = heading ?? {}
+  const { primaryColor = configData?.primaryColor, heading = configData.heading, theme = configData.theme } = config ?? {}
+  const { ideas = configData.heading.ideas, announcement = configData.heading.announcement, roadMap = configData.heading.roadMap } = heading ?? {}
   const accountId = orgData?.organizationId;
-console.log(announcement)
 
-  const backgroundColor = "#fff";
+  const isDarkMode = checkIsDarkMode({ theme });
+
+  const backgroundColor = isDarkMode ? "#1B1D21" : "#F8F9FA";
   const textColor = "#000";
 
   // Create the overlay
@@ -55,7 +57,7 @@ console.log(announcement)
   slider.style.height = "100%";
   slider.style.backgroundColor = backgroundColor;
   slider.style.color = textColor;
-  slider.style.padding = "70px 15px 100px 15px";
+  slider.style.padding = "90px 15px 100px 15px";
   slider.style.borderRadius = "0px";
   slider.style.width = "90%";
   slider.style.maxWidth = "400px";
@@ -65,13 +67,19 @@ console.log(announcement)
 
 
   const renderHeader = (heading: string) => {
+    // background-color:${primaryColor}
+
+    const headingBgColor = isDarkMode ? "#414549" : "#E5E7EB";
+    const headingTextColor = isDarkMode ? "#E4E4E4CC" : "#374151";
+    const bottomBorderColor = isDarkMode ? "#292B2F" : "#E5E7EB";
+
     return `
-    <div style="color:white;position:fixed;top:0;width:400px;background-color:${primaryColor};display:flex;justify-content:space-between;align-items:center;padding:10px 20px; margin: 0px -15px;z-index:10;">
-    <h3 class="prodio-feedback-form-heading" style="margin: 0; padding: 0px; color:white;font-size:22px;">
+    <div style="border-bottom:1px solid ${bottomBorderColor};color:white;position:fixed;top:0;width:400px;display:flex;justify-content:space-between;align-items:center;padding:20px 20px; margin: 0px -15px;z-index:10;">
+    <h3 class="prodio-feedback-form-heading" style="margin: 0; padding: 4px 12px;border-radius:5px; background-color:${headingBgColor}; color:${headingTextColor};font-size:16px;">
       ${heading}
     </h3> 
     <span id="slider-close-button" style="cursor: pointer;z-index: 25; width: max-content;">
-  ${renderCloseIcon({ stroke: "white" })}
+  ${renderCloseIcon({ stroke: isDarkMode ? "#9FA1A7" : "#718096", size: "20" })}
 
     </span>
 </div>
@@ -113,9 +121,9 @@ console.log(announcement)
 /* No Data Found Message */
 .prodio-no-data {
   text-align: center;
-  font-size: 16px;
+  font-size: 14px;
   color: #999;
-  font-weight: bold;
+  font-weight: normal;
   padding: 20px;
       height: -webkit-fill-available;
     display: flex;
@@ -169,10 +177,6 @@ opacity:0;
     opacity:1;
 }
 
-.prodio-feedback-card-animate:hover .prodio-feedback-card-title {
-  text-decoration: underline;
-   text-underline-offset: 4px;
-}
 
 .prodio-feedback-card-description{
   display: -webkit-box;
@@ -207,20 +211,21 @@ opacity:0;
 
 
       .prodio-feedback-form-container{
-        background-color: #ececec!important;
+        background-color: transparent;
         padding:15px;
         border-radius:5px;
         margin-bottom:15px;
+        border:1px solid ${isDarkMode ? "#313337" : "#31333740"};
       }
 
       .prodio-feedback-form-heading {
-        font-size: 22px;
+        font-size: 16px;
         margin: 0;
       }
   
       @media screen and (max-width: 700px) {
         .prodio-feedback-form-heading {
-          font-size: 20px;
+          font-size: 16px;
         }
       }
   
@@ -257,9 +262,9 @@ opacity:0;
     justify-content:center;
     align-items:center;
     gap:5px;
-    font-size:10px;
+    font-size:12px;
     cursor:pointer;
-    font-weight:500;
+    font-weight:bold;
     padding:5px;
     border-radius:5px;
 }
@@ -290,19 +295,19 @@ background-color:rgba(236,236,236,0.5)
   };
 
   const tabs: any = {
+    ideas: {
+      value: "ideas",
+      icon: (stroke?: string) => renderIdeasIcon({ stroke }),
+      label: "Feedback",
+      content: () => ideasContainer(data, selectedCard),
+      heading: ideas,
+    },
     announcement: {
       value: "announcement",
       icon: (stroke?: string) => renderAnnouncementsIcon({ stroke }),
       label: "Announcements",
       content: () => announcementContainer(data),
       heading: announcement
-    },
-    ideas: {
-      value: "ideas",
-      icon: (stroke?: string) => renderIdeasIcon({ stroke }),
-      label: "Ideas",
-      content: () => ideasContainer(data, selectedCard),
-      heading: ideas,
     },
     roadMap: {
       value: "roadMap",
@@ -318,23 +323,50 @@ background-color:rgba(236,236,236,0.5)
   let selectedTab = "ideas";
 
 
+
+
   function renderTabs() {
+
+    const containerBg = isDarkMode ? "#222429" : "#fff"
+
+    const tabActiveColor = isDarkMode ? "#D2D3E0" : "#1D1D1D";
+    const tabActiveBgColor = isDarkMode ? "#52525B61" : "#E8E8E8";
+
+    const tabColor = isDarkMode ? "#5B5B60" : "#71809650";
+
+    const tabBorderColor = isDarkMode ? "none" : "1px solid #CFCFCF";
+
+    const whiteLabelColor = isDarkMode ? "#5B5B60" : "#5B5B60";
+
     slider.innerHTML = selectedCard ? renderFeedbackDetails(selectedCard, data) : `
         ${renderHeader(tabs[selectedTab]?.heading)}
         <div id="prodio-tab-content">
         </div>
-        <div style="position: fixed; bottom: 0px; background:white;padding:10px 10px 0 10px;margin:0 0 0 -15px;box-shadow: 0 0 4px rgb(38 44 49 / 26%); max-width: 400px;width:100%;">
+        <div style="
+          position: fixed;
+          bottom: 0px;
+          background:${containerBg};
+          padding:20px 20px 5px 20px;
+          margin:0 0 0 -15px;
+          max-width: 400px;
+          width:100%;
+        ">
             <div id="tab-container" style="display:grid;grid-template-columns:repeat(${tabsArray.length},1fr);gap:5px;">
                 ${tabsArray.map((tab) => `
                     <div class="prodio-tab-btn" data-tab="${tab.value}" 
-                        style="color:${selectedTab === tab.value ? primaryColor : "#1c1E21"}; cursor: pointer;">
-               <span> ${tab?.icon(selectedTab === tab.value ? primaryColor : "#1c1E21")}</span>
-                        <span>${tab.label}</span>
+                        style="
+                        color:${selectedTab === tab.value ? tabActiveColor : tabColor};
+                        cursor: pointer;
+                        background-color:${selectedTab === tab.value ? tabActiveBgColor : "transparent"};
+                        border:${selectedTab === tab.value ? tabBorderColor : "none"};
+                    ">
+                    <span> ${tab?.icon(selectedTab === tab.value ? tabActiveColor : tabColor)}</span>
+                    <span>${tab.label}</span>
                     </div>
                 `).join("")}
             </div>
-            <div style="display:flex; justify-content:center;width:100% padding :8px 0;">
-                ${whiteLabelRender({ fontSize: "12px", color: primaryColor })}
+            <div style="display:flex; justify-content:end;width:100%; padding :5px 0 0 0;">
+                ${whiteLabelRender({ fontSize: "10px", color: whiteLabelColor })}
             </div>
         </div>
     `;
@@ -347,7 +379,7 @@ background-color:rgba(236,236,236,0.5)
           closeSlider();
           event.stopPropagation(); // Prevent event from bubbling up
         });
-  
+
       }
     }, 100);
   }

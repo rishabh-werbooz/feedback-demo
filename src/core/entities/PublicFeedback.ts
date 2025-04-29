@@ -6,10 +6,11 @@ export interface PublicFeedbackTypes {
     },
     config?: {
         primaryColor?: string;
+        theme?: string;
         heading?: {
             ideas?: string,
             announcement?: string,
-            roadMap?:string,
+            roadMap?: string,
         };
 
     }

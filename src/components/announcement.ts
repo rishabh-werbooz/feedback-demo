@@ -3,6 +3,7 @@ import { FeedbackTypes, SubmissionMode } from "../core/lib/enum";
 import { fetchAnnouncements } from "../core/usecases/fetchAnnouncements"
 import { handleSubmit } from "../core/usecases/handleSubmit";
 import { announcementCard } from "./reuseables/announcementCard";
+import { checkIsDarkMode } from "./reuseables/checkIsDarkMode";
 
 // export const announcementContainer = async (data: any) => {
 //     const { orgData,config } = data;
@@ -78,16 +79,16 @@ import { announcementCard } from "./reuseables/announcementCard";
 //                 const title = card.querySelector(".prodio-announcement-comment-title") as HTMLInputElement;
 //                 const comment = title.value.trim();
 //                 const typeValue = type.value.trim();
-        
+
 //                 if (comment && type) {
 //                     console.log(`Submitting comment: "${comment}" for card ID: ${card.dataset.id}`);
-        
+
 //                     // Disable button and show loading state
 //                     submitButton.disabled = true;
 //                     submitButton.classList.add("prodio-disabled-btn");
-        
+
 //                     const website = window.location.hostname;
-        
+
 //                     const dataToSend = {
 //                         title: comment,
 //                         description: "",
@@ -108,20 +109,20 @@ import { announcementCard } from "./reuseables/announcementCard";
 //                         meta_data: null,
 //                         is_public: false
 //                     };
-        
+
 //                     await handleSubmit(dataToSend);
-        
+
 //                     // Reset form fields
 //                     type.value = FeedbackTypes.feature.value;
 //                     title.value = "";
-        
+
 //                     // Re-enable button and reset text
 //                     submitButton.disabled = false;
 //                     submitButton.classList.remove("prodio-disabled-btn");
 //                 }
 //             }
 //         });
-        
+
 //     }
 
 //     // return `<div>${container.outerHTML}</div>`; // Return the actual container element
@@ -129,7 +130,8 @@ import { announcementCard } from "./reuseables/announcementCard";
 
 export const announcementContainer = async (data: any) => {
     const { orgData, config } = data;
-    const { primaryColor = configData?.primaryColor } = config ?? {};
+    const { primaryColor = configData?.primaryColor,theme = configData?.theme } = config ?? {};
+    const isDarkMode = checkIsDarkMode({theme})
     const accountId = orgData?.organizationId;
     const websiteId = orgData?.websiteId;
 
@@ -145,7 +147,7 @@ export const announcementContainer = async (data: any) => {
     container.style.flexDirection = "column";
     container.style.gap = "15px";
     container.style.padding = "1px";
-    container.style.height = "calc(100vh - 170px)";
+    container.style.height = "calc(100vh - 190px)";
 
     // Create loading indicator
     const loadingIndicator = document.createElement("div");
@@ -160,7 +162,7 @@ export const announcementContainer = async (data: any) => {
 
         loadingIndicator.style.display = "flex"; // Show loading spinner
 
-        const res = await fetchAnnouncements({ websiteId,organizationId: accountId, page: currentPage });
+        const res = await fetchAnnouncements({ websiteId, organizationId: accountId, page: currentPage });
         const newsFeeds = res.data || [];
 
         loadingIndicator.style.display = "none"; // Hide loading spinner
@@ -168,7 +170,7 @@ export const announcementContainer = async (data: any) => {
         if (newsFeeds.length > 0) {
             newsFeeds.forEach((feeds: any) => {
                 const card = document.createElement("div");
-                card.innerHTML = announcementCard(feeds, primaryColor);
+                card.innerHTML = announcementCard(feeds, primaryColor,isDarkMode);
                 container.appendChild(card);
             });
             currentPage++; // Move to the next page
@@ -207,16 +209,101 @@ export const announcementContainer = async (data: any) => {
     prodioTabContent?.appendChild(container);
 
     if (prodioTabContent) {
+        // prodioTabContent.addEventListener("click", async (event: any) => {
+        //     if (event.target.classList.contains("prodio-announcement-comment-submit")) {
+        //         const submitButton = event.target as HTMLButtonElement;
+        //         const card = event.target.closest(".announcement-card");
+        //         const type = card.querySelector(".prodio-announcement-comment-type") as HTMLSelectElement;
+        //         const title = card.querySelector(".prodio-announcement-comment-title") as HTMLInputElement;
+        //         const comment = title.value.trim();
+        //         const typeValue = type.value.trim();
+
+        //         if (comment && type) {
+        //             console.log(`Submitting comment: "${comment}" for card ID: ${card.dataset.id}`);
+
+        //             // Disable button and show loading state
+        //             submitButton.disabled = true;
+        //             submitButton.classList.add("prodio-disabled-btn");
+
+        //             const website = window.location.hostname;
+
+        //             const dataToSend = {
+        //                 title: comment,
+        //                 description: "",
+        //                 type: typeValue, // Feature, task, or bug
+        //                 feedback_id: card.dataset.id,
+        //                 source: {
+        //                     id: website,
+        //                     name: "slider",
+        //                     type: "Website",
+        //                 },
+        //                 user_id: orgData?.userData?.id,
+        //                 user_name: orgData?.userData?.name,
+        //                 user_email: orgData?.userData?.email,
+        //                 created_at: new Date(),
+        //                 updated_at: new Date(),
+        //                 last_retrieved_message: false,
+        //                 account_id: orgData?.organizationId,
+        //                 meta_data: null,
+        //                 is_public: false,
+        //                 website_id: orgData?.websiteId,
+        //                 submission_mode:SubmissionMode.announcement 
+        //             };
+
+        //             await handleSubmit(dataToSend);
+
+        //             // Reset form fields
+        //             type.value = FeedbackTypes.feature.value;
+        //             title.value = "";
+
+        //             // Re-enable button and reset text
+        //             submitButton.disabled = false;
+        //             submitButton.classList.remove("prodio-disabled-btn");
+        //         }
+        //     }
+        // });
+
+
         prodioTabContent.addEventListener("click", async (event: any) => {
-            if (event.target.classList.contains("prodio-announcement-comment-submit")) {
-                const submitButton = event.target as HTMLButtonElement;
-                const card = event.target.closest(".announcement-card");
+            const target = event.target;
+
+            // Toggle "Leave a comment" form
+            if (target.classList.contains("toggle-comment-box")) {
+                const card = target.closest(".announcement-card");
+                const commentBox = card.querySelector(".comment-box") as HTMLElement;
+
+                commentBox.style.display = "flex";
+                target.style.display = "none"; // Hide the "Leave a comment" button
+            }
+
+            // Cancel comment
+            if (target.classList.contains("cancel-comment")) {
+                const card = target.closest(".announcement-card");
+                const commentBox = card.querySelector(".comment-box") as HTMLElement;
+                const toggleBtn = card.querySelector(".toggle-comment-box") as HTMLElement;
+
+                commentBox.style.display = "none";
+                toggleBtn.textContent = "Leave a comment"; // reset button text
+                toggleBtn.style.display = "inline-block";
+
+                const type = card.querySelector(".prodio-announcement-comment-type") as HTMLSelectElement;
+                const title = card.querySelector(".prodio-announcement-comment-title") as HTMLInputElement;
+
+                // Reset values
+                type.selectedIndex = 0;
+                title.value = "";
+            }
+
+            // Submit comment
+            if (target.classList.contains("prodio-announcement-comment-submit")) {
+                const submitButton = target;
+                const card = submitButton.closest(".announcement-card");
                 const type = card.querySelector(".prodio-announcement-comment-type") as HTMLSelectElement;
                 const title = card.querySelector(".prodio-announcement-comment-title") as HTMLInputElement;
                 const comment = title.value.trim();
                 const typeValue = type.value.trim();
 
-                if (comment && type) {
+                if (comment && typeValue) {
                     console.log(`Submitting comment: "${comment}" for card ID: ${card.dataset.id}`);
 
                     // Disable button and show loading state
@@ -228,7 +315,7 @@ export const announcementContainer = async (data: any) => {
                     const dataToSend = {
                         title: comment,
                         description: "",
-                        type: typeValue, // Feature, task, or bug
+                        type: typeValue,
                         feedback_id: card.dataset.id,
                         source: {
                             id: website,
@@ -245,21 +332,31 @@ export const announcementContainer = async (data: any) => {
                         meta_data: null,
                         is_public: false,
                         website_id: orgData?.websiteId,
-                        submission_mode:SubmissionMode.announcement 
+                        submission_mode: SubmissionMode.announcement
                     };
 
                     await handleSubmit(dataToSend);
+                    // console.log("Data to send:", dataToSend); // For debugging
 
-                    // Reset form fields
+                    // Reset fields
                     type.value = FeedbackTypes.feature.value;
                     title.value = "";
 
-                    // Re-enable button and reset text
+                    // Hide form and show "Leave a comment again"
+                    const commentBox = card.querySelector(".comment-box") as HTMLElement;
+                    const toggleBtn = card.querySelector(".toggle-comment-box") as HTMLElement;
+
+                    commentBox.style.display = "none";
+                    toggleBtn.style.display = "inline-block";
+                    toggleBtn.textContent = "Leave a comment";
+
+                    // Re-enable button
                     submitButton.disabled = false;
                     submitButton.classList.remove("prodio-disabled-btn");
                 }
             }
         });
+
     }
 };
 

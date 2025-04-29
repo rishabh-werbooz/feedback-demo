@@ -3,6 +3,7 @@ import { configData } from "../core/lib/config"
 import { getFromSessionStorage } from "../core/repositories/Storage"
 import { fetchIdeasComments } from "../core/usecases/fetchIdeasComments"
 import { submitIdeaComment } from "../core/usecases/submitIdeaComment"
+import { checkIsDarkMode } from "./reuseables/checkIsDarkMode"
 import { renderCloseIcon } from "./reuseables/closeIcon"
 import { handleDeleteIdeasComment, renderCommentBox } from "./reuseables/comentBox"
 import { FeatureCards } from "./reuseables/featureCard"
@@ -12,36 +13,47 @@ export const renderFeedbackDetails = (selectedCard: any, data: any) => {
 
 
   const { config, orgData } = data;
-  const { primaryColor = configData?.primaryColor } = config ?? {}
+  const { primaryColor = configData?.primaryColor,theme  = configData?.theme } = config ?? {}
+
+  const isDarkMode = checkIsDarkMode({theme})
 
   const { userData } = orgData
 
 
+  const sliderBackgroundColor = isDarkMode ? "#1B1D21" : "#F8F9FA";
+  const sliderBorderColor = isDarkMode ? "#313337" : "#E5E7EB";
 
   const backgroundColor = "#fff";
   const textColor = "#474747";
+
+  const commentHeadingColor = isDarkMode ? "#D2D3E0" : "#303540";
+
+  const fieldBg = isDarkMode ? "#222429" : "#FFFFFF";
+  const fieldTextColor = isDarkMode ? "#FAFAFA" : "#303540";
+  const fieldBorder = isDarkMode ? "1px solid #52526F40" : "1px solid #E5E7EB";
 
   return `
      <div
      id="prodio-feedback-details-comment"
       class="prodio-feedback-card-animate prodio-feedback-hidden-scrollbar"
-      style="position:fixed;top:0;right:0;height:100%;width:400px;z-index:12;background-color:white;overflow-y:auto;"
+      style="position:fixed;top:0;right:0;height:100%;width:400px;z-index:12;background-color:${sliderBackgroundColor};overflow-y:auto;padding:15px;"
     >
 
   <span type="button" id="close-feedback-btn" 
-        style="cursor: pointer; z-index: 25; width: max-content;position:absolute;right:10px;top:10px;">
-    ${renderCloseIcon({})}
+        style="cursor: pointer; z-index: 25; width: max-content;position:absolute;right:25px;top:25px;">
+    ${renderCloseIcon({stroke: isDarkMode ? "#9FA1A7" : "#718096", size: "20"})}
   </span>
 
 
-     ${FeatureCards(selectedCard, 2, "detail", primaryColor,1)}
-      <div style="display:flex;flex-direction:column;gap:10px;padding:10px 20px 20px 20px;">
-        <h3 id="prodio-ideas-comment-count-${selectedCard.id}" style="font-weight:700;font-size:18px;color:#474747;margin:0;padding:0;margin-bottom:5px;">Comments (${selectedCard.comments})</h3>
+     ${FeatureCards(selectedCard, 2, "detail", primaryColor, 1, isDarkMode)}
+     
+     <hr style="height:0.2px;border:none; background: ${sliderBorderColor};margin:15px -15px 0 -15px;"/>
+      <div style="display:flex;flex-direction:column;gap:10px;padding:10px 0px 20px 0px;">
+        <h3 id="prodio-ideas-comment-count-${selectedCard.id}" style="font-weight:700;font-size:18px;color:${commentHeadingColor};margin:0;padding:0;margin-bottom:5px;">Add a comment</h3>
         <div style="display:flex;gap:8px; width:100%;">
-          <span style="aspect-ratio:1;display:flex;justify-content:center;align-items:center;width:30px;height:30px;background-color:${generateRandomColors({ string: userData?.name })};color:white;font-size:14px;border-radius:50px;"> ${userData?.name ? userData?.name[0] : "A"}</span>
-          <div style="display:flex;flex-direction:column;gap:10px; width:100%;">
+          <div style="display:flex;flex-direction:column;gap:20px; width:100%;">
             <textarea type="text" id="prodio-ideas-comment"  placeholder="Add a comment..."  autocomplete="off" 
-              style="padding: 2px 8px;font-size:14px; border-radius: 5px;border: 1px solid #eaeaea; outline: none; background: ${backgroundColor}; color: ${textColor};"
+              style="padding: 6px 8px;font-size:14px; border-radius: 5px;border: ${fieldBorder}; outline: none; background: ${fieldBg}; color: ${fieldTextColor};"
               rows="2"
               ></textarea>
             <button id="prodio-ideas-comment-submit" style="padding: 5px 20px;border: none; width:max-content; background-color: ${primaryColor}; border-radius: 5px; color: #fff; font-size: 14px; cursor: pointer;">
@@ -50,7 +62,9 @@ export const renderFeedbackDetails = (selectedCard: any, data: any) => {
           </div>
         </div>
       </div>
-     <div id="prodio-ideas-comment-list"></div>
+     <hr style="height:0.2px;border:none; background: ${sliderBorderColor};margin:0 0 15px 0"/>
+        <h3 id="prodio-ideas-comment-count-${selectedCard.id}" style="font-weight:700;font-size:18px;color:${commentHeadingColor};margin:0;padding:0;margin-bottom:20px;">Comments (${selectedCard.comments})</h3>
+     <div id="prodio-ideas-comment-list" style="display:flex;flex-direction:column;gap:15px;"></div>
     </div>
     `
 }
@@ -115,10 +129,13 @@ export const renderFeedbackDetails = (selectedCard: any, data: any) => {
 
 // }
 
+// <span style="aspect-ratio:1;display:flex;justify-content:center;align-items:center;width:30px;height:30px;background-color:${generateRandomColors({ string: userData?.name })};color:white;font-size:14px;border-radius:50px;"> ${userData?.name ? userData?.name[0] : "A"}</span>
+
 export const renderComments = async (
   resetData: boolean = false,
   selectedCard: any,
-  primaryColor: string
+  primaryColor: string,
+  isDarkMode:boolean
 ) => {
   let currentPage = 1;
   let isFetching = false;
@@ -160,7 +177,7 @@ export const renderComments = async (
         const fragment = document.createDocumentFragment();
         comments.forEach((comment: any) => {
           const card = document.createElement("div");
-          card.innerHTML = renderCommentBox(comment, primaryColor);
+          card.innerHTML = renderCommentBox(comment, primaryColor,isDarkMode);
           card.setAttribute("data-comment", JSON.stringify(comment));
           fragment.appendChild(card);
         });
@@ -200,7 +217,7 @@ export const renderComments = async (
 
 
 
-export const onFeedbackCardClick = (selectedCard: any, data: any, primaryColor: string) => {
+export const onFeedbackCardClick = (selectedCard: any, data: any, primaryColor: string,isDarkMode:boolean) => {
   document.addEventListener("click", (event) => {
     const target = event.target as HTMLElement;
     const feedbackDetails = document.getElementById("feedback-details");
@@ -214,9 +231,9 @@ export const onFeedbackCardClick = (selectedCard: any, data: any, primaryColor: 
       feedbackDetails.style.display = "block";
       feedbackDetails.innerHTML = renderFeedbackDetails(feedbackData, data);
 
-      renderComments(false, selectedCard, primaryColor)
-      commentSubmit(selectedCard, data, primaryColor)
-      handleDeleteIdeasComment(selectedCard,primaryColor)
+      renderComments(false, selectedCard, primaryColor,isDarkMode)
+      commentSubmit(selectedCard, data, primaryColor,isDarkMode)
+      handleDeleteIdeasComment(selectedCard,primaryColor,isDarkMode)
     }
 
     if (closeBtn && feedbackDetails) {
@@ -226,7 +243,7 @@ export const onFeedbackCardClick = (selectedCard: any, data: any, primaryColor: 
   });
 }
 
-export const commentSubmit = (selectedCard: any, data: any, primaryColor: string) => {
+export const commentSubmit = (selectedCard: any, data: any, primaryColor: string,isDarkMode:boolean) => {
   document.getElementById("prodio-ideas-comment-submit")?.addEventListener("click", async () => {
     const submitButton = document.getElementById("prodio-ideas-comment-submit") as HTMLButtonElement;
     const contentInput = document.getElementById("prodio-ideas-comment") as HTMLTextAreaElement;
@@ -252,12 +269,12 @@ export const commentSubmit = (selectedCard: any, data: any, primaryColor: string
       }
 
       submitIdeaComment(dataToSend).then((res: any) => {
-        renderComments(true, selectedCard, primaryColor)
+        renderComments(true, selectedCard, primaryColor,isDarkMode)
         contentInput.value = "";
         submitButton.disabled = false;
         submitButton.classList.remove("prodio-disabled-btn");
 
-        updatedSelectedCardComments(selectedCard, "increment", primaryColor)
+        updatedSelectedCardComments(selectedCard, "increment", primaryColor,isDarkMode)
 
 
       })
@@ -267,7 +284,7 @@ export const commentSubmit = (selectedCard: any, data: any, primaryColor: string
 }
 
 
-export const updatedSelectedCardComments = (selectedCard: any, type: string, primaryColor: string) => {
+export const updatedSelectedCardComments = (selectedCard: any, type: string, primaryColor: string,isDarkMode:boolean) => {
 
   const updatedValue = type === "increment" ? selectedCard.comments + 1 : selectedCard.comments - 1
 
@@ -284,7 +301,7 @@ export const updatedSelectedCardComments = (selectedCard: any, type: string, pri
       comments: updatedValue
     }
     if (cardToUpdate) {
-      cardToUpdate.innerHTML = FeatureCards(updatedFeedback, 0, "card", primaryColor,1);
+      cardToUpdate.innerHTML = FeatureCards(updatedFeedback, 0, "card", primaryColor,1,isDarkMode);
       cardToUpdate.setAttribute("data-feedback", JSON.stringify(updatedFeedback));
     }
 }

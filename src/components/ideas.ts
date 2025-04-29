@@ -3,14 +3,20 @@ import { FeedbackTypesArray, SubmissionMode } from "../core/lib/enum";
 import { fetchPublicFeedbacks } from "../core/usecases/fetcPublicFeedbacks";
 import { handleSubmit } from "../core/usecases/handleSubmit";
 import { onFeedbackCardClick } from "./feedbackDetails";
+import { checkIsDarkMode } from "./reuseables/checkIsDarkMode";
 import { renderCloseIcon } from "./reuseables/closeIcon";
 import { FeatureCards } from "./reuseables/featureCard";
 
 export const ideasContainer = async (data: any, selectedCard: any) => {
   const { orgData, form, config } = data;
-  const { primaryColor = configData?.primaryColor, heading = configData.heading } = config ?? {}
+  const { primaryColor = configData?.primaryColor, heading = configData.heading,theme= configData.theme} = config  ?? {}
   const accountId = orgData?.organizationId;
   const websiteId = orgData?.websiteId;
+  const isDarkMode = checkIsDarkMode({ theme });
+
+
+
+
 
   const container = document.createElement("div");
   container.className = "prodio-feedback-hidden-scrollbar";
@@ -20,7 +26,7 @@ export const ideasContainer = async (data: any, selectedCard: any) => {
   container.style.flexDirection = "column"
   container.style.gap = "15px"
   container.style.padding = "1px"
-  container.style.height = "calc(100vh - 170px)"
+  container.style.height = "calc(100vh - 190px)"
 
   const ideaForm = document.createElement("div");
 
@@ -45,26 +51,28 @@ export const ideasContainer = async (data: any, selectedCard: any) => {
         input.style.border = "none"; // Removes border
       });
 
+      const labelColor = isDarkMode ? "#98989E" : "#6B7280";
+
       input.addEventListener("blur", () => {
-        (label as HTMLElement).style.color = "black";
+        (label as HTMLElement).style.color = labelColor;
         input.style.border = "none"; // Ensure border stays removed after blur
       });
     }
   });
 
-  renderFeedbacks(accountId, websiteId,false,primaryColor);
+  renderFeedbacks(accountId, websiteId,false,primaryColor,isDarkMode);
 
 
 
   // to submit the ideas
-  submitIdea({ orgData,primaryColor })
+  submitIdea({ orgData,primaryColor,isDarkMode })
 
   // ✅to manage the submit a new idea button
   manageSubmitANewIdeaButton()
 
 
   // to manage click on the ideas feedback card
-  onFeedbackCardClick(selectedCard, data,primaryColor)
+  onFeedbackCardClick(selectedCard, data,primaryColor,isDarkMode)
 
 }
 
@@ -73,50 +81,59 @@ export const renderIdeaForm = (data: any) => {
 
   const { orgData, form, config } = data;
   const { title = formMetaData?.title, description = formMetaData?.description } = form ?? {};
-  const { primaryColor = configData?.primaryColor, heading = configData.heading } = config ?? {}
+  const { primaryColor = configData?.primaryColor, heading = configData.heading ,theme= configData.theme } = config ?? {}
 
-  const backgroundColor = "#fff";
+  const isDarkMode = checkIsDarkMode({ theme });
+
+
+  const backgroundColor = "transparent";
   const textColor = "#000";
 
+  const labelColor = isDarkMode ? "#98989E" : "#6B7280";
+  const fieldBg = isDarkMode ? "#222429" : "#FFFFFF";
+  const fieldTextColor = isDarkMode ? "#FAFAFA" : "#303540";
+  const fieldBorder = isDarkMode ? "1px solid #52526F40" : "1px solid #E5E7EB";
+
+  // <span class="prodio-feedback-form-description" style="color:#4747474">${description}</span>
 
   return `
    <div id="form-container" class="prodio-feedback-form-container" style="position: relative;">
       <span id="close-form-btn" type="button" style="position: absolute; top: 10px; right: 10px; background: transparent; border: none; cursor: pointer; font-size: 16px;">
-        ${renderCloseIcon({})}
+        ${renderCloseIcon({size:"20px",stroke: isDarkMode ? "#9FA1A7" : "#718096"})}
       </span>
 
-      <div id="feedback-form" style="display:flex;flex-direction:column;gap:12px;">
-        <h2 class="prodio-feedback-form-heading" style="color:#4747474">${title}</h2>
-        <span class="prodio-feedback-form-description" style="color:#4747474">${description}</span>
+      <div id="feedback-form" style="display:flex;flex-direction:column;gap:15px;">
+        <h2 class="prodio-feedback-form-heading" style="color:${isDarkMode ? "#D2D3E0" : "#303540"};font-weight:bold;margin:0px;padding:0px;">${title}</h2>
+        <hr style="height:0.2px;border:none; background: ${isDarkMode ? "#313337" : "#31333740"};"/>
 
-        <div style="display: flex; flex-direction: column; gap: 0px;border-radius:2px; padding:8px 0;width: 100%;background-color:white;">
-          <label for="slider-type" style="display: block; text-align: left; font-size:13px; font-weight:550;color:#474747; margin:0 0 0 8px;">Type</label>
-          <select id="slider-type" style="padding: 2px 4px;font-size:14px; border-radius: 5px; border: none; background: ${backgroundColor}; color: ${textColor};" >
+        <div style="display: flex; flex-direction: column; gap: 8px;border-radius:2px;width: 100%;">
+          <label for="slider-type" style="display: block; text-align: left; font-size:13px; font-weight:550;color:${labelColor};">Type</label>
+          <select id="slider-type" style="height:30px;padding: 6px 8px;font-size:12px; border-radius: 5px; background: ${fieldBg}; color: ${fieldTextColor}; border:${fieldBorder};" >
             ${FeedbackTypesArray.map((option: any) => (
     `<option value="${option?.value}">${option?.label}</option>`
   ))}
           </select>
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0px;border-radius:2px; padding:8px 0;width: 100%;background-color:white;">
-          <label for="slider-title" style="display: block; text-align: left; font-size:13px; font-weight:550;color:#474747; margin:0 0 0 8px;">Title</label>
+        <div style="display: flex; flex-direction: column; gap: 8px;border-radius:2px;width: 100%;">
+          <label for="slider-title" style="display: block; text-align: left; font-size:13px; font-weight:550;color:${labelColor};">Title</label>
           <input 
             type="text" 
             id="slider-title" 
-            placeholder="Enter title"
+            placeholder="Enter a descriptive title"
             autocomplete="off" 
-            style="padding: 2px 8px;font-size:14px; border-radius: 5px; border: none; background: ${backgroundColor}; color: ${textColor};"
+            style="padding: 6px 8px;font-size:12px; border-radius: 5px; background: ${fieldBg}; color: ${fieldTextColor};border:${fieldBorder};"
           />
         </div>
 
-        <div style="display: flex; flex-direction: column; gap: 0px;border-radius:2px; padding:8px 0;width: 100%;background-color:white;">
-          <label for="slider-description" style="display: block; text-align: left; font-size:13px; font-weight:550;color:#474747; margin:0 0 0 8px;">Description</label>
+        <div style="display: flex; flex-direction: column; gap: 8px;border-radius:2px;width: 100%;">
+          <label for="slider-description" style="display: block; text-align: left; font-size:13px; font-weight:550;color:${labelColor};">Description</label>
           <textarea 
             id="slider-description" 
-            placeholder="Enter description" 
+            placeholder="Enter a description" 
             autocomplete="off" 
             rows="5"
-            style="padding: 2px 8px;font-size:14px; border-radius: 5px; border: none; background: ${backgroundColor}; color: ${textColor}; resize: none;"
+            style="padding: 6px 8px;font-size:12px; border-radius: 5px; background: ${fieldBg}; color: ${fieldTextColor}; resize: none;border:${fieldBorder};"
           ></textarea>
         </div>
 
@@ -166,7 +183,7 @@ export const renderIdeaForm = (data: any) => {
 }
 
 
-export const submitIdea = ({ orgData,primaryColor }: { orgData?: any,primaryColor:string }) => {
+export const submitIdea = ({ orgData, primaryColor,isDarkMode }: { orgData?: any, primaryColor: string, isDarkMode:boolean }) => {
   
   const inputs = [
     document.getElementById("slider-type") as HTMLSelectElement,
@@ -234,7 +251,7 @@ export const submitIdea = ({ orgData,primaryColor }: { orgData?: any,primaryColo
       last_retrieved_message: false,
       account_id: orgData?.organizationId,
       meta_data: null,
-      is_public: true, // false
+      is_public: false, // false
       website_id: orgData?.websiteId,
       submission_mode:SubmissionMode.feedback 
     }
@@ -245,7 +262,7 @@ export const submitIdea = ({ orgData,primaryColor }: { orgData?: any,primaryColo
       document.getElementById("slider-error")!.textContent = res.error;
       document.getElementById("slider-error")!.style.display = "block";
     } else {
-      renderFeedbacks(accountId, websiteId,true,primaryColor);
+      renderFeedbacks(accountId, websiteId,true,primaryColor,isDarkMode);
       (document.getElementById("slider-title") as HTMLInputElement).value = "";
       (document.getElementById("slider-description") as HTMLTextAreaElement).value = "";
     }
@@ -319,7 +336,7 @@ export const submitIdea = ({ orgData,primaryColor }: { orgData?: any,primaryColo
 //   }
 // }
 
-export async function renderFeedbacks(accountId: string,websiteId:string, resetData: boolean = false,primaryColor:string) {
+export async function renderFeedbacks(accountId: string,websiteId:string, resetData: boolean = false,primaryColor:string,isDarkMode:boolean) {
 
 
   try {
@@ -402,13 +419,14 @@ export async function renderFeedbacks(accountId: string,websiteId:string, resetD
         const fragment = document.createDocumentFragment();
         feedbacks.forEach((feedback: any, index: number) => {
           const card = document.createElement("div");
-          card.innerHTML = FeatureCards(feedback, index, "card",primaryColor,1);
+          card.innerHTML = FeatureCards(feedback, index, "card",primaryColor,1,isDarkMode);
           card.setAttribute("data-feedback", JSON.stringify(feedback));
           card.setAttribute("data-feedback-id", feedback?.id);
           fragment.appendChild(card);
         });
     
-        feedbackContainer.style.cssText = "border: 1px solid #e5e7eb; border-radius: 12px;overflow: hidden;background-color: white;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);";
+        // feedbackContainer.style.cssText = "border: 1px solid #e5e7eb; border-radius: 12px;overflow: hidden;background-color: white;box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);";
+        feedbackContainer.style.cssText = "display:flex;flex-direction:column;gap:15px;overflow-y:hidden;";
         feedbackContainer.appendChild(fragment); // Append all at once
         currentPage++;
       } else {

@@ -1,13 +1,21 @@
-export const renderRoadMapIcon = ({ stroke = "#000000", size = "20px" }: { stroke?: string, size?: string }) => {
+export const renderRoadMapIcon = ({ stroke = "#000000", size = "15px" }: { stroke?: string, size?: string }) => {
     return `
-
-
-
-<svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=${size} height=${size} viewBox="0 0 64 64" enable-background=${stroke} xml:space="preserve" fill=${stroke} transform="rotate(0)" fill=${stroke} stroke-width="0.00064">
-<g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.28"></g>
-<g id="SVGRepo_iconCarrier"> <g> <circle fill=${stroke} cx="32" cy="32" r="4"></circle> <path fill=${stroke} d="M32,0C14.328,0,0,14.328,0,32s14.328,32,32,32s32-14.328,32-32S49.672,0,32,0z M40,40l-22,6l6-22l22-6 L40,40z"></path> </g> </g></svg>
-
+<svg xmlns="http://www.w3.org/2000/svg" width=${size} height=${size} viewBox="0 0 24 24" fill="none" stroke=${stroke} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-map-icon lucide-map">
+<path d="M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z"/>
+<path d="M15 5.764v15"/>
+<path d="M9 3.236v15"/>
+</svg>
     `
+
+    //     return `
+
+
+
+// <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width=${size} height=${size} viewBox="0 0 64 64" enable-background=${stroke} xml:space="preserve" fill=${stroke} transform="rotate(0)" fill=${stroke} stroke-width="0.00064">
+// <g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.28"></g>
+// <g id="SVGRepo_iconCarrier"> <g> <circle fill=${stroke} cx="32" cy="32" r="4"></circle> <path fill=${stroke} d="M32,0C14.328,0,0,14.328,0,32s14.328,32,32,32s32-14.328,32-32S49.672,0,32,0z M40,40l-22,6l6-22l22-6 L40,40z"></path> </g> </g></svg>
+
+//     `
 }
 
 
