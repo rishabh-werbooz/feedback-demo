@@ -36,7 +36,7 @@ export const renderFeedbackDetails = (selectedCard: any, data: any) => {
      <div
      id="prodio-feedback-details-comment"
       class="prodio-feedback-card-animate prodio-feedback-hidden-scrollbar"
-      style="position:fixed;top:0;right:0;height:100%;width:400px;z-index:12;background-color:${sliderBackgroundColor};overflow-y:auto;padding:15px;"
+      style="position:fixed;top:0;right:0;height:100%;width:400px;z-index:13;background-color:${sliderBackgroundColor};overflow-y:auto;padding:15px;"
     >
 
   <span type="button" id="close-feedback-btn" 
