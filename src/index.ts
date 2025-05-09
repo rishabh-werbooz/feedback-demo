@@ -53,10 +53,10 @@ export async function init({ organizationId, websiteId, properties }: { organiza
   if (existingData?.userData?.id !== properties.id) {
     // Find the organization data based on the provided ID
     const orgData = await fetchOrganizationData({ organizationId,websiteId })
-    if (!orgData.length) {
-      console.error("Error: Organization not found for ID", organizationId);
-      return;
-    }
+    // if (!orgData.length) {
+    //   console.error("Error: Organization not found for ID", organizationId);
+    //   return;
+    // }
     // Save data in sessionStorage
     saveToSessionStorage(SessionStorageName, { organizationId, websiteId, userData: properties, orgData,newFeedbackCount:5 });
   }
